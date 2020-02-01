@@ -6,10 +6,10 @@ version=0.4.0
 author=Igor Chumichev	
 email=desertwolf@inbox.ru
 
-about=Provide a brief description of the plugin and its purpose.
+about=Plugin for QGIS for creating or editing features by adding or changing coordinates of node points.
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://github.com/desertwolf7/numericalDigitize3/issues
+repository=https://github.com/desertwolf7/numericalDigitize3/
 # End of mandatory metadata
 
 # Recommended items:
@@ -18,7 +18,7 @@ hasProcessingProvider=no
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=python, create, edit, coordinates, point, line, polygon
+tags=python, create, edit, coordinates, point, line, polygon, clipboard
 experimental=True
 deprecated=False
 server=False
