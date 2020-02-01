@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.vscode/
 build/
 develop-eggs/
 dist/
@@ -26,12 +27,23 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+scripts/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+*.cmd
+pb_tool.*
+Makefile
+make.bat
+plugin_upload.py
+pylintrc 
+zip_build/
+_build/
+_static/
+_templates/
 
 # Installer logs
 pip-log.txt
@@ -54,6 +66,7 @@ coverage.xml
 # Translations
 *.mo
 *.pot
+*.ts
 
 # Django stuff:
 *.log
@@ -102,6 +115,8 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+.idea
+.svn
 .env
 .venv
 env/
