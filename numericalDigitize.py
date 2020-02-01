@@ -203,7 +203,7 @@ class NumericalDigitize:
 
     def help(self):
         # Display html help
-        url = QUrl.fromLocalFile(self.plugin_dir + "/help" + self.translate_str("/index.html")).toString()
+        url = QUrl.fromLocalFile(self.plugin_dir + "/help" + self.translate_str("/index_en.html")).toString()
         webbrowser.open(url, new=2)
 
     def EditFeature(self, Rectangle):

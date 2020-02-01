@@ -108,7 +108,7 @@
     </message>
     <message>
         <location filename="../numericalDigitize.py" line="206"/>
-        <source>/index.html</source>
+        <source>/index_en.html</source>
         <translation>/index_ru.html</translation>
     </message>
 </context>
