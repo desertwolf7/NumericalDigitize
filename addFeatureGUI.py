@@ -513,12 +513,15 @@ class AddFeatureGui(QDialog, FORM_CLASS):
     def swapButtonClicked(self):
         # When swap button pressed exchange values of X and Y in table control and coordinates store
         model = self.twPoints.model()
+
+        self.__part_changing = True
         for i in range(model.rowCount()):
             index1 = model.index(i, 0, QModelIndex())
             index2 = model.index(i, 1, QModelIndex())
             swapvalue = model.data(index1, QtCore.Qt.EditRole)
             model.setData(index1, model.data(index2, QtCore.Qt.EditRole), QtCore.Qt.EditRole)
             model.setData(index2, swapvalue, QtCore.Qt.EditRole)
+        self.__part_changing = False
 
         for i in range(len(self.coords_matrix)):
             current_list = self.coords_matrix[i][1]
