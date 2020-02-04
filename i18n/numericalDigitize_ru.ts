@@ -94,7 +94,7 @@
     <message>
         <location filename="../numericalDigitize.py" line="494"/>
         <source>The new geometry of the feature isn&apos;t valid. Do you want to use it anyway?</source>
-        <translation>Новая геометрия объекта неправильная. Вы хотите использованить ее использовать?</translation>
+        <translation>Новая геометрия объекта неправильная. Вы действительно хотите ее использовать?</translation>
     </message>
     <message>
         <location filename="../numericalDigitize.py" line="144"/>

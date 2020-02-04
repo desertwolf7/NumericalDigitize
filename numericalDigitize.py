@@ -27,7 +27,7 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QMessageBox, QAction
 from qgis.core import (QgsWkbTypes, QgsGeometry, QgsFeature, QgsMapLayer, QgsPoint,
                        QgsMultiPoint, QgsMultiLineString, QgsLineString, QgsMultiPolygon,
-                       QgsPolygon, QgsPointXY, QgsApplication, QgsFeatureRequest)
+                       QgsPolygon, QgsPointXY, QgsApplication, QgsFeatureRequest, QgsVectorLayerUtils)
 
 # initialize Qt resources from file resources.py
 from .resources import *
@@ -484,7 +484,7 @@ class NumericalDigitize:
         provider = self.__layer.dataProvider()
 
         if not self.__isEditMode:
-            feature = QgsFeature()
+            feature = QgsVectorLayerUtils.createFeature(self.__layer)
         else:
             feature = self.__layer.getFeature(self.feature_id)
 
@@ -502,14 +502,9 @@ class NumericalDigitize:
                 return False
 
         if not self.__isEditMode:
-            fields = self.__layer.fields()
-            attr = feature.initAttributes(len(fields))
-            for i in range(len(fields)):
-                feature.setAttribute(i, provider.defaultValue(i))
-
             self.__layer.beginEditCommand("Feature added")
-            self.__layer.addFeature(feature)
-            result = self.iface.openFeatureForm(self.__layer, feature, False)
+            if self.iface.openFeatureForm(self.__layer, feature):
+                self.__layer.addFeature(feature)
             self.__layer.endEditCommand()
         else:
             self.__layer.beginEditCommand("Feature updated")
