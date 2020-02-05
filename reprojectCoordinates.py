@@ -21,7 +21,8 @@
  ***************************************************************************/
 """
 
-from qgis.core import QgsPoint, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsProject, QgsWkbTypes
+from qgis.core import (QgsPoint, QgsCoordinateReferenceSystem, QgsCoordinateTransform,
+                       QgsProject, QgsWkbTypes, QgsGeometry)
 
 
 class ReprojectCoordinates:
@@ -96,3 +97,8 @@ class ReprojectCoordinates:
                 return coordsPoint
             else:
                 return list(self.copyPointstoCoords(coordsPoint))
+
+    def reprojectGeometry(self, geom: QgsGeometry) -> QgsGeometry:
+        if geom is not None:
+            geom.transform(self.transformation, QgsCoordinateTransform.ForwardTransform, self.hasZ)
+            return geom
