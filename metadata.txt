@@ -2,7 +2,7 @@
 name=Numerical Digitize 3
 qgisMinimumVersion=3.4
 description=Create and edit features by inserting, changing, deleted digital values of vertex's coordinates
-version=0.4.0
+version=0.4.1
 author=Igor Chumichev	
 email=desertwolf@inbox.ru
 
