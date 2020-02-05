@@ -79,7 +79,7 @@ class FeatureFinderTool(QgsMapToolEmitPoint):
             rect_geom = QgsGeometry.fromRect(rect)
 
             crs_canvas = self.canvas.mapSettings().destinationCrs()
-            layer_crs = self.canvas.currentLayer().dataProvider().crs()
+            layer_crs = self.canvas.currentLayer().crs()
             xformer = QgsCoordinateTransform(crs_canvas, layer_crs, QgsProject.instance())
 
             rect_geom.transform(xformer, QgsCoordinateTransform.ForwardTransform)
