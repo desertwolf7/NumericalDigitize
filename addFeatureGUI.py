@@ -22,8 +22,8 @@
  ***************************************************************************/
 """
 
-from qgis.PyQt import uic
-from qgis.PyQt.QtCore import QSettings, QVariant, QPersistentModelIndex, pyqtSignal, QCoreApplication, QModelIndex
+from qgis.PyQt.QtCore import (QSettings, QVariant, QPersistentModelIndex, pyqtSignal,
+                              QCoreApplication, QModelIndex)
 from qgis.PyQt.QtGui import QColor, QBrush, QClipboard
 from qgis.PyQt.QtWidgets import QMessageBox, QDialogButtonBox, QHeaderView, QTableWidgetItem, QDialog, QApplication
 from qgis.core import QgsCoordinateReferenceSystem, QgsWkbTypes
@@ -39,12 +39,9 @@ import os
 from builtins import int, str
 currentPath = os.path.dirname(__file__)
 
-# This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
-FORM_CLASS, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), "addFeatureGUI.ui"), resource_suffix="")
-
 
 # noinspection PyPep8Naming
-class AddFeatureGui(QDialog, FORM_CLASS):
+class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
 
     returnCoordList = pyqtSignal(list)
     selectedCRS = pyqtSignal(int)
@@ -77,7 +74,7 @@ class AddFeatureGui(QDialog, FORM_CLASS):
 
     def __init__(self, parent=None):
         """Constructor."""
-        super(AddFeatureGui, self).__init__(parent)
+        super(AddFeatureGUI, self).__init__(parent)
         self.setupUi(self)
         self.featureCrsId = None
         self.projectCrsId = None
@@ -554,10 +551,10 @@ class AddFeatureGui(QDialog, FORM_CLASS):
         model = self.twPoints.model()
         selectedRows = self.twPoints.selectionModel().selectedRows()
         if len(selectedRows) == 0:
-            msgBox = QMessageBox(QMessageBox.Warning, self.translate_str("Warning"),
-                                                      self.translate_str("Remove all rows?"),
-                                 QMessageBox.Ok | QMessageBox.Cancel)
-            if msgBox.exec() == QMessageBox.Ok:
+            title = self.translate_str("Warning")
+            message = self.translate_str("Remove all rows?")
+            msgBox = QMessageBox.warning(self.window(), title, message, QMessageBox.Ok | QMessageBox.Cancel)
+            if msgBox == QMessageBox.Ok:
                 model.removeRows(0, model.rowCount())
                 model.insertRows(0, 1)
         else:
