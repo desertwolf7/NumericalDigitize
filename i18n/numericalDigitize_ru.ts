@@ -2,14 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
-    <name>AddFeatureGui</name>
+    <name>AddFeatureGUI</name>
     <message>
-        <location filename="../addFeatureGUI.py" line="329"/>
+        <location filename="../addFeatureGUI.py" line="309"/>
+        <source>CRS not selected</source>
+        <translation>Не выбрана CRS</translation>
+    </message>
+    <message>
+        <location filename="../addFeatureGUI.py" line="326"/>
         <source>Select source coordinates system</source>
         <translation>Выберите исходную систему координат</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="333"/>
+        <location filename="../addFeatureGUI.py" line="330"/>
         <source>Select destination coordinates system</source>
         <translation>Выберите новую систему координат</translation>
     </message>
@@ -17,6 +22,11 @@
         <location filename="../addFeatureGUI.py" line="556"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
+    </message>
+    <message>
+        <location filename="../addFeatureGUI.py" line="557"/>
+        <source>Remove all rows?</source>
+        <translation>Удалить все строки?</translation>
     </message>
     <message>
         <location filename="../addFeatureGUI.py" line="689"/>
@@ -27,16 +37,6 @@
         <location filename="../addFeatureGUI.py" line="689"/>
         <source>Current part contains incorrect values</source>
         <translation>Текущая часть содержит некорректные значения</translation>
-    </message>
-    <message>
-        <location filename="../addFeatureGUI.py" line="312"/>
-        <source>CRS not selected</source>
-        <translation>Не выбрана CRS</translation>
-    </message>
-    <message>
-        <location filename="../addFeatureGUI.py" line="556"/>
-        <source>Remove all rows?</source>
-        <translation>Удалить все строки?</translation>
     </message>
 </context>
 <context>
