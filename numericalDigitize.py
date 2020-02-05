@@ -31,7 +31,7 @@ from qgis.core import (QgsWkbTypes, QgsGeometry, QgsFeature, QgsMapLayer, QgsPoi
 
 # initialize Qt resources from file resources.py
 from .resources import *
-from .addFeatureGUI import AddFeatureGui
+from .addFeatureGUI import AddFeatureGUI
 from .featureFinderTool import FeatureFinderTool
 from .reprojectCoordinates import ReprojectCoordinates
 import os.path
@@ -179,7 +179,7 @@ class NumericalDigitize:
         # Only create GUI ONCE in callback, so that it will only load when the plugin is started
         if self.first_start:
             self.first_start = False
-            self.__dlg = AddFeatureGui(self.iface.mainWindow())
+            self.__dlg = AddFeatureGUI(self.iface.mainWindow())
             self.__dlg.returnCoordList.connect(self.createGeom)
             self.__dlg.selectedCRS.connect(self.doTransformFromCrs)
             self.__dlg.configureSignals()
@@ -244,7 +244,7 @@ class NumericalDigitize:
 
             if self.first_start_edit:
                 self.first_start_edit = False
-                self.__dlgEdit = AddFeatureGui(self.iface.mainWindow())
+                self.__dlgEdit = AddFeatureGUI(self.iface.mainWindow())
                 self.__dlgEdit.returnCoordList.connect(self.createGeom)
                 self.__dlgEdit.selectedCRS.connect(self.doTransformFromCrs)
                 self.__dlgEdit.configureSignals()
