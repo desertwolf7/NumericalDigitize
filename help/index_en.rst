@@ -15,7 +15,7 @@ General provisions
 ================================================
 The extension for QGIS Numeric Digitize 3 is for adding or
 edit objects such as a point, line, or polygon by entering or
-change the coordinate values of their node points.
+change the coordinate values of their vertices.
 
 This version of the extension is used for create or edit objects with one type
 and consisting of points and lines. Working correctly with objects containing
@@ -28,7 +28,7 @@ coordinate values.
 When you finish adding or editing an object, will done automatic translation of
 coordinates into the coordinate system of the layer being edited.
 
-In addition to editing the coordinates of the node points, the extension
+In addition to editing the coordinates of the vertices, the extension
 allows you to following:
 
 #. Paste a table of coordinate values from the clipboard or copy to the
@@ -36,7 +36,7 @@ allows you to following:
 #. Convert coordinate values from one projection to another.
 #. Exchange coordinate values for X and Y.
 #. Add or remove parts of objects and/or rings for polygons.
-#. Add, edit, or delete anchor points.
+#. Add, edit, or delete vertices.
 
 Description of plugin interface
 ===============================
@@ -116,7 +116,7 @@ editing polygons.
 
 2. The coordinate table rows panel contains the following buttons:
 
-|copy_coordinates| - button to copy point coordinates to the clipboard.
+|copy_coordinates| - button to copy vertixe's coordinates to the clipboard.
 Only the current part is copied. If no cells or only one cell are selected,
 the entire table is copied. When two or more cells are selected (in the table,
 cells are selected by a single rectangular block), only those cells are copied
@@ -151,16 +151,6 @@ default is the current coordinate system) and then the target coordinate
 system. After recalculation, the coordinate table is updated and the
 destination coordinate system is set as the current coordinate system.
 
-
-В центре окна диалога расположены список частей объекта и таблица координат.
-
-Список частей объекта содержит целые числовые значения. Положительные значения
-от 1 до N обозначают части объекта, отрицательные значения от -1 до -N
-обозначают кольца полигонов. Для добавления части или кольца нажмите кнопку
-|add_part| или |add_ring|, после чего для начала редактирования выберите нужную
-часть из списка. Для удаления части или кольца выберети в списке удаляемую
-часть или кольцо и нажмите кнопку |delete_part|.
-
 A list of object parts and a coordinate table are located in the center of the
 dialog box.
 
@@ -186,9 +176,9 @@ The node you are editing is displayed as a red square, and the remaining nodes
 are displayed as blue diamonds.
 
 In the lower part of the dialog box is situated Select Coordinate System panel,
-where you can set coordinates reference system for entered values of node
-points. By default, the coordinate system of the layer you are editing is set.
-The coordinates of points you add or edit can be in the project coordinate
+where you can set coordinates reference system for entered values of vertices.
+By default, the coordinate system of the layer you are editing is set.
+The coordinates of vertices you add or edit can be in the project coordinate
 system or an arbitrary coordinate system. Select the coordinate system by
 selecting the desired button in the panel. Selecting an arbitrary coordinate
 system displays the standard QGIS dialog box for selecting a coordinate system.
@@ -219,15 +209,24 @@ layer you are editing, specify it in the coordinate selection panel. When the
 object is added, the coordinates are automatically translated into the
 coordinate system of the layer being edited.
 
-3. Editing object
+3. Get the vertice's сoordinates of object and copy them to the clipboard
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+It is often necessary to insert object coordinates into a text or table 
+document. To do this, make the layer in which the object resides editable.
+Click |icon_edit| and select the desired object. In the coordinate dialog box,
+click |copy_coordinates|. Navigate to the program in which you are editing the
+document, create a table if necessary, and paste the vertices coordinates into
+it. Repeat the operation for other parts of the object.
+
+4. Editing object
 ~~~~~~~~~~~~~~~~~
 To edit an object, make the desired layer editable and click |icon_edit| and
 change the object coordinates in the dialog box that appears. During editing,
 as well as adding, you can add or remove rows, add or remove parts and rings,
 and swap X and Y columns.
 
-4. Exchange X and Y column values
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5. Exchange X and Y column values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Sometimes, because of the coordinate system in QGIS, the X and Y axes are
 swapped. When you type or paste from the clipboard and the X and Y columns are
 swapped, you can correct the situation by clicking |swap_coordinates|. Note
@@ -235,14 +234,14 @@ that all parts of the object are exchanged. Therefore, if the coordinates
 of one part have been incorrectly entered, the coordinates of the other parts
 must be entered in the same way and only then exchanged.
 
-5. Changing the Projection of node point coordinates
+6. Changing the Projection of node point coordinates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If you added an object to an incorrect projection, you must begin editing the
 object and specify the actual projection in the Projection Selector. When you
 write an object, the coordinates are automatically translated into the
 coordinate system of the layer you are editing.
 
-6. Using the plugin as a Projection Calculator
+7. Using the plugin as a Projection Calculator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Sometimes it is necessary to specify a list of coordinates in a different
 projection in a document. To do this, create a temporary layer, click
