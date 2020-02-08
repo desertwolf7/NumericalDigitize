@@ -30,7 +30,7 @@ enabled.
 
 ## Usage
 
-The extension for QGIS Numeric Digitize 3 is for adding or
+The extension for QGIS Numerical Digitize 3 is for adding or
 edit objects such as a point, line, or polygon by entering or
 change the coordinate values of their vertices.
 
