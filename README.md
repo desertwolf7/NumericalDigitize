@@ -2,7 +2,6 @@
 
 Plugin for QGIS for creating or editing features by adding or changing
 coordinates of vertices.
-**Warning - It's first release of plugin with bugs. Use it on you own risk.**
 
 ![Common image](images/readme.png)
 
