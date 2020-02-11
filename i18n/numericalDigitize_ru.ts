@@ -240,7 +240,7 @@
     <message>
         <location filename="../ui_addFeatureGUI.py" line="307"/>
         <source>Paste from clipboard</source>
-        <translation>Вставить координаты в буфер обмена</translation>
+        <translation>Вставить координаты из буфера обмена</translation>
     </message>
     <message>
         <location filename="../ui_addFeatureGUI.py" line="311"/>
