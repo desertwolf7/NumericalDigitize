@@ -100,9 +100,16 @@ class HighlightFeature:
                 y_list.append(self.nodesHighlight[i].getPoint(0).y())
 
             featureRect = QgsRectangle(min(x_list), min(y_list), max(x_list), max(y_list))
+            # If canvas not contains entire feature then set canvas center on center of feature
             mapRect = self.canvas.extent()
             if not mapRect.contains(featureRect):
-                self.canvas.setExtent(featureRect)
+                centerPoint = QgsPointXY(float((min(x_list) + max(x_list)) / 2), float((min(y_list) + max(y_list)) / 2))
+                self.canvas.setCenter(centerPoint)
+
+                # If now If canvas not contains entire feature then set canvas extent on feature extent
+                mapRect = self.canvas.extent()
+                if not mapRect.contains(featureRect):
+                    self.canvas.setExtent(featureRect)
 
         self.canvas.refresh()
 

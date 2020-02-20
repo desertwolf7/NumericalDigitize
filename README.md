@@ -1,4 +1,4 @@
-# Numerical Digitize 3
+# Numerical Digitize
 
 Plugin for QGIS for creating or editing features by adding or changing
 coordinates of vertices.
@@ -15,21 +15,21 @@ coordinates of vertices.
 
 1. In QGIS, navigate to menu **Plugins** > **Manage and Install Plugins...** >
 **All**
-2. Search for `Numerical Digitize 3` > **Install plugin**
-3. Switch to tab **Installed**, make sure the plugin `Numerical Digitize 3` is
+2. Search for `Numerical Digitize` > **Install plugin**
+3. Switch to tab **Installed**, make sure the plugin `Numerical Digitize` is
 enabled.
 
 ### Install manually from zip file in QGIS
 
-1. Download the [latest release](https://github.com/desertwolf7/numericalDigitize3/releases) zip file
+1. Download the [latest release](https://github.com/desertwolf7/numericalDigitize/releases) zip file
 2. In QGIS, navigate to menu **Plugins** > **Manage and Install Plugins...** >
 **Install from ZIP**, then select the downloaded zip file.
-3. Switch to tab **Installed**, make sure the plugin `Numerical Digitize 3` is
+3. Switch to tab **Installed**, make sure the plugin `Numerical Digitize` is
 enabled.
 
 ## Usage
 
-The extension for QGIS Numerical Digitize 3 is for adding or
+The extension for QGIS Numerical Digitize is for adding or
 edit objects such as a point, line, or polygon by entering or
 change the coordinate values of their vertices.
 

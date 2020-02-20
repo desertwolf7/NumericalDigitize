@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Numerical Digitize 3'
+project = 'Numerical Digitize'
 copyright = '2020, Igor Chumichev'
 author = 'Igor Chumichev'
 

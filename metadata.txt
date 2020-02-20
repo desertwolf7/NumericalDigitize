@@ -1,5 +1,5 @@
 [general]
-name=Numerical Digitize 3
+name=Numerical Digitize
 qgisMinimumVersion=3.4
 description=Create and edit features by inserting, changing, deleted digital values of vertex's coordinates
 version=0.4.2
@@ -8,8 +8,8 @@ email=desertwolf@inbox.ru
 
 about=Plugin for QGIS for creating or editing features by adding or changing coordinates of node points.
 
-tracker=https://github.com/desertwolf7/numericalDigitize3/issues
-repository=https://github.com/desertwolf7/numericalDigitize3/
+tracker=https://github.com/desertwolf7/NumericalDigitize/issues
+repository=https://github.com/desertwolf7/NumericalDigitize/
 # End of mandatory metadata
 
 # Recommended items:

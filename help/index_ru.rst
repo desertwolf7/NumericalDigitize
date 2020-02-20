@@ -1,9 +1,9 @@
-..  Numerical Digitize 3 documentation master file, created by
+..  Numerical Digitize documentation master file, created by
     sphinx-quickstart on Sat Jan 18 17:47:34 2020.
     You can adapt this file completely to your liking, but it should at least
     contain the root `toctree` directive.
 
-Добро пожаловать в документацию по Numerical Digitize 3!
+Добро пожаловать в документацию по Numerical Digitize!
 =========================================================
 
 .. toctree::
@@ -13,7 +13,7 @@
 
 Общие положения
 ================================================
-Расширение для QGIS Numerical Digitize 3 предназначено для добавления или
+Расширение для QGIS Numerical Digitize предназначено для добавления или
 редактирования объектов, таких как точка, линия или полигон, путем ввода или
 изменения значений координат их узловых точек.
 
