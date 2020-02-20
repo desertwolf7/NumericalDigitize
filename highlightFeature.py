@@ -33,17 +33,17 @@ class HighlightFeature:
     def __init__(self, canvas, p_pointsonly, p_closecontour, projectcrs_id):
         self.canvas = canvas
 
-        # Highliting conturs and nodes
-        self.lineHighlight = None
+        # Highliting all conturs and nodes of current contour
+        self.lineHighlight = list()
         self.nodesHighlight = list()
         self.projectCrsId = projectcrs_id
         self.featureCrsId = -1
         self.pointsOnly = p_pointsonly
         self.closeContour = p_closecontour
 
-    def createHighlight(self, coords, featurecrs_id, currentVertex=0):
+    def createHighlight(self, coords, currentPart, featurecrs_id, currentVertex=0):
         """
-        coords - list of tuples with coordinates
+        coords - list of tuples with coordinates coords matrix type from addFeatureGUI
         """
         needTransformation = False
         self.featureCrsId = featurecrs_id
@@ -54,33 +54,36 @@ class HighlightFeature:
             transformation = QgsCoordinateTransform(crsSrc, crsDest, QgsProject.instance())
 
         if not self.pointsOnly:
-            self.lineHighlight = QgsRubberBand(self.canvas, QgsWkbTypes.LineGeometry)
-            for i in range(len(coords)):
-                if self.isFloat(coords[i][0]) and self.isFloat(coords[i][1]):
-                    if needTransformation:
-                        src_point = QgsPoint(float(coords[i][0]), float(coords[i][1]))
-                        src_point.transform(transformation)
-                        point = QgsPointXY(src_point)
-                    else:
-                        point = QgsPointXY(float(coords[i][0]), float(coords[i][1]))
-                    self.lineHighlight.addPoint(point, True, 0)
+            for partNum in range(len(coords)):
+                self.lineHighlight.append(QgsRubberBand(self.canvas, QgsWkbTypes.LineGeometry))
+                coordsPart = coords[partNum][1]
+                for i in range(len(coordsPart)):
+                    if self.isFloat(coordsPart[i][0]) and self.isFloat(coordsPart[i][1]):
+                        if needTransformation:
+                            src_point = QgsPoint(float(coordsPart[i][0]), float(coordsPart[i][1]))
+                            src_point.transform(transformation)
+                            point = QgsPointXY(src_point)
+                        else:
+                            point = QgsPointXY(float(coordsPart[i][0]), float(coordsPart[i][1]))
+                        self.lineHighlight[partNum].addPoint(point, True, 0)
 
-            if self.closeContour and self.lineHighlight.numberOfVertices() > 2:
-                self.lineHighlight.closePoints(True)
+                if self.closeContour and self.lineHighlight[partNum].numberOfVertices() > 2:
+                    self.lineHighlight[partNum].closePoints(True)
 
-            self.lineHighlight.setColor(Qt.red)
-            self.lineHighlight.setWidth(2)
+                self.lineHighlight[partNum].setColor(Qt.red)
+                self.lineHighlight[partNum].setWidth(2)
 
         j = 0
-        for i in range(len(coords)):
-            if self.isFloat(coords[i][0]) and self.isFloat(coords[i][1]):
+        coordsPart = coords[currentPart][1]
+        for i in range(len(coordsPart)):
+            if self.isFloat(coordsPart[i][0]) and self.isFloat(coordsPart[i][1]):
                 self.nodesHighlight.append(QgsRubberBand(self.canvas, QgsWkbTypes.PointGeometry))
                 if needTransformation:
-                    src_point = QgsPoint(float(coords[i][0]), float(coords[i][1]))
+                    src_point = QgsPoint(float(coordsPart[i][0]), float(coordsPart[i][1]))
                     src_point.transform(transformation)
                     point = QgsPointXY(src_point)
                 else:
-                    point = QgsPointXY(float(coords[i][0]), float(coords[i][1]))
+                    point = QgsPointXY(float(coordsPart[i][0]), float(coordsPart[i][1]))
                 self.nodesHighlight[j].addPoint(point, True, 0)
 
                 if i == currentVertex:
@@ -123,13 +126,14 @@ class HighlightFeature:
                     self.nodesHighlight[i].setIcon(QgsRubberBand.ICON_FULL_DIAMOND)
                     self.nodesHighlight[i].setColor(Qt.darkBlue)
 
-        self.canvas.refresh()
+            self.canvas.refresh()
 
     def removeHighlight(self):
-        if self.lineHighlight is not None:
-            self.canvas.scene().removeItem(self.lineHighlight)
-            self.lineHighlight.reset(QgsWkbTypes.LineGeometry)
-            self.lineHighlight = None
+        if len(self.lineHighlight) > 0:
+            for partNum in range(len(self.lineHighlight)):
+                self.canvas.scene().removeItem(self.lineHighlight[partNum])
+                self.lineHighlight[partNum].reset(QgsWkbTypes.LineGeometry)
+            self.lineHighlight.clear()
 
         for i in range(len(self.nodesHighlight)):
             self.canvas.scene().removeItem(self.nodesHighlight[i])

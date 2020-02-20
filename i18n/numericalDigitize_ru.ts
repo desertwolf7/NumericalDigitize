@@ -19,22 +19,22 @@
         <translation>Выберите новую систему координат</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="556"/>
+        <location filename="../addFeatureGUI.py" line="557"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="557"/>
+        <location filename="../addFeatureGUI.py" line="558"/>
         <source>Remove all rows?</source>
         <translation>Удалить все строки?</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="689"/>
+        <location filename="../addFeatureGUI.py" line="690"/>
         <source>Values error</source>
         <translation>Неправильные значения</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="689"/>
+        <location filename="../addFeatureGUI.py" line="690"/>
         <source>Current part contains incorrect values</source>
         <translation>Текущая часть содержит некорректные значения</translation>
     </message>

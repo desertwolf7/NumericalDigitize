@@ -237,7 +237,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         if self.highLighter is not None:
             self.highLighter.removeHighlight()
             if -1 < partNum < len(self.coords_matrix):
-                self.highLighter.createHighlight(self.coords_matrix[partNum][1], self.featureCrsId)
+                self.highLighter.createHighlight(self.coords_matrix, partNum, self.featureCrsId)
                 if -1 < vertexNum < len(self.coords_matrix[partNum][1]):
                     self.highLighter.changeCurrentVertex(vertexNum)
 
@@ -350,7 +350,8 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
                         self.__displayAuthid()
 
     def onCellClicked(self, newRow, newColumn):
-        self.highLightFeature(self.prev_row, newRow)
+        if self.highLighter is not None and newRow != -1:
+            self.highLighter.changeCurrentVertex(newRow)
 
     def onCellValueChanged(self, newRow, newColumn):
         if newRow == -1 or self.__part_changing:
