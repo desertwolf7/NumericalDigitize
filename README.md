@@ -49,7 +49,7 @@ allows you to following:
 
 1. Adding of object by entering coordinates of vertices from keyboard or from
 clipboard.
-2. Get the vertice's сoordinates of object and copy them to the clipboard.
+2. Get the vertice's coordinates of object and copy them to the clipboard.
 3. Convert coordinate values from one projection to another.
 4. Exchange coordinate values for X and Y.
 5. Add or remove parts of objects and/or rings for polygons.
