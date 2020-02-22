@@ -1,5 +1,5 @@
 [general]
-name=NumericalDigitize
+name=Numerical Digitize
 qgisMinimumVersion=3.4
 description=Numerical Digitize is QGIS plugin for creating and editing features by inserting, changing or deleting digital values of vertex's coordinates from keybord or from clipboard
 version=0.4.3
