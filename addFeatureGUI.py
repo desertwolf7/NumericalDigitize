@@ -593,8 +593,8 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         else:
             self.__ringsCount = self.__ringsCount - 1
 
-        self.listParts.removeItemWidget(self.listParts.takeItem(l_currentRow))
         self.coords_matrix.remove(self.coords_matrix[l_currentRow])
+        self.listParts.removeItemWidget(self.listParts.takeItem(l_currentRow))
 
         for i in range(self.listParts.count()):
             currentPartNumber = int(self.listParts.item(i).text())
