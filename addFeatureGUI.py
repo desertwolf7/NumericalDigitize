@@ -2,7 +2,7 @@
 """
 /***************************************************************************
  Numerical digitize - sets up a Qgis actions for append and edit features
- by inserting or changing digital values of vertex's coordinates
+ by inserting or changing numerical values of vertex's coordinates
  A QGIS plugin
                               -------------------
         begin                : 2010 year
@@ -669,12 +669,12 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         settings = QSettings()
         # tell the world if the coord should be transformed into the layer crs
         if self.rb_ProjectCrs.isChecked():
-            settings.setValue("NumericDigitize/checked", "rb_ProjectCrs")
+            settings.setValue("NumericalDigitize/checked", "rb_ProjectCrs")
         elif self.rb_OtherCrs.isChecked() and self.featureCrsId != -1:
-            settings.setValue("NumericDigitize/checked", "rb_OtherCrs")
-            settings.setValue("NumericDigitize/featureCrsId", self.featureCrsId)
+            settings.setValue("NumericalDigitize/checked", "rb_OtherCrs")
+            settings.setValue("NumericalDigitize/featureCrsId", self.featureCrsId)
         else:
-            settings.setValue("NumericDigitize/checked", "rb_LayerCrs")
+            settings.setValue("NumericalDigitize/checked", "rb_LayerCrs")
 
     def onOK(self):
         # Refresh matrix coords for current part

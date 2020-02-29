@@ -2,7 +2,7 @@
 """
 /***************************************************************************
  Numerical digitize - sets up a Qgis actions for append and edit features
- by inserting or changing digital values of vertex's coordinates
+ by inserting or changing numerical values of vertex's coordinates
  A QGIS plugin
                               -------------------
         begin                : 2010 year
@@ -32,6 +32,7 @@ from qgis.core import (QgsWkbTypes, QgsGeometry, QgsFeature, QgsMapLayer, QgsPoi
 # initialize Qt resources from file resources.py
 from .resources import *
 from .addFeatureGUI import AddFeatureGUI
+from .chooseFeatureGUI import ChooseFeatureGUI
 from .featureFinderTool import FeatureFinderTool
 from .reprojectCoordinates import ReprojectCoordinates
 import os.path
@@ -90,6 +91,7 @@ class NumericalDigitize:
         # Main dialog's references
         self.__dlg = None
         self.__dlgEdit = None
+        self.__dlgChooser = None
 
         # Current layer and it't parameters
         self.__layer = None
@@ -227,11 +229,16 @@ class NumericalDigitize:
                                      self.translate_str("No feature selected"), QMessageBox.Ok)
                 self.feature_id = None
             elif len(feature_list) > 1:
-                QMessageBox.critical(self.iface.mainWindow(),
-                                     self.translate_str("Numerical edit error"),
-                                     self.translate_str("More then 1 feature selected"),
-                                     QMessageBox.Ok)
-                self.feature_id = None
+                if self.__dlgChooser is None:
+                    self.__dlgChooser = ChooseFeatureGUI(self.iface.mainWindow())
+                    self.__dlgChooser.configureSignals()
+
+                self.__dlgChooser.clearControls()
+                self.__dlgChooser.configureDialog(feature_list, self.__layer)
+                if self.__dlgChooser.exec() == 1:
+                    self.feature_id = feature_list[self.__dlgChooser.selectedFeature].id()
+                else:
+                    self.feature_id = None
             else:
                 self.feature_id = feature_list[0].id()
 

@@ -2,7 +2,7 @@
 """
 /***************************************************************************
  Numerical digitize - sets up a Qgis actions for append and edit features
- by inserting or changing digital values of vertex's coordinates
+ by inserting or changing numerical values of vertex's coordinates
  A QGIS plugin
                               -------------------
         begin                : 2019 year

@@ -40,74 +40,77 @@
     </message>
 </context>
 <context>
+    <name>ChooseFeatureGUI</name>
+    <message>
+        <location filename="../chooseFeatureGUI.py" line="60"/>
+        <source>Feature with Id = </source>
+        <translation>Объект с Id = </translation>
+    </message>
+</context>
+<context>
     <name>NumericalDigitize</name>
     <message>
-        <location filename="../numericalDigitize.py" line="186"/>
+        <location filename="../numericalDigitize.py" line="188"/>
         <source>Add feature</source>
         <translation>Добавить объект</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="225"/>
+        <location filename="../numericalDigitize.py" line="227"/>
         <source>No feature selected</source>
         <translation>Не выбрано ни одного объекта</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="230"/>
-        <source>More then 1 feature selected</source>
-        <translation>Выбрано более одного объекта</translation>
-    </message>
-    <message>
-        <location filename="../numericalDigitize.py" line="251"/>
+        <location filename="../numericalDigitize.py" line="258"/>
         <source>Edit feature</source>
         <translation>Редактировать объект</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="475"/>
+        <location filename="../numericalDigitize.py" line="482"/>
         <source>Ring not in exterior contour</source>
         <translation>Кольцо находится вне внешнего контура полигона</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="494"/>
+        <location filename="../numericalDigitize.py" line="501"/>
         <source>Feature not valid</source>
         <translation>Объекта имеет неправильную геометрию</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="109"/>
+        <location filename="../numericalDigitize.py" line="111"/>
         <source>Numerical digitizing</source>
         <translation>Добавление объектов по координатам точек</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="118"/>
+        <location filename="../numericalDigitize.py" line="120"/>
         <source>Numerical edit</source>
         <translation>Координатное редактирование объекта</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="106"/>
+        <location filename="../numericalDigitize.py" line="108"/>
         <source>Numerical digitize</source>
         <translation>Добавление объектов по координатам точек</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="230"/>
+        <location filename="../numericalDigitize.py" line="227"/>
         <source>Numerical edit error</source>
         <translation>Ошибка выбора объекта для редактирования</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="494"/>
+        <location filename="../numericalDigitize.py" line="501"/>
         <source>The new geometry of the feature isn&apos;t valid. Do you want to use it anyway?</source>
         <translation>Новая геометрия объекта неправильная. Вы действительно хотите ее использовать?</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="144"/>
+        <location filename="../numericalDigitize.py" line="146"/>
         <source>&amp;Numerical Digitize</source>
         <translation>&amp;Добавление и редактирование объекта по координатам точек</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="374"/>
+        <location filename="../numericalDigitize.py" line="381"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
     <message>
-        <location filename="../numericalDigitize.py" line="206"/>
+        <location filename="../numericalDigitize.py" line="208"/>
         <source>/index_en.html</source>
         <translation>/index_ru.html</translation>
     </message>
@@ -163,6 +166,14 @@
         <location filename="../valueChecker.py" line="145"/>
         <source>Value error</source>
         <translation>Ошибочное значение</translation>
+    </message>
+</context>
+<context>
+    <name>chooseFeatureDialog</name>
+    <message>
+        <location filename="../ui_chooseFeatureGUI.py" line="49"/>
+        <source>Choose feature for edit</source>
+        <translation>Выберите объект для редактирования</translation>
     </message>
 </context>
 <context>
