@@ -250,6 +250,36 @@ coordinates from the clipboard, change the projection using |reproject|, and
 copy the list of coordinates to the clipboard, and then paste the new table
 into the program.
 
+8. Quickly add a ring to a polygon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In the case where it is necessary to make a ring in a polygon quickly, 
+excluding from it the territory occupied by another polygon from the same or 
+another layer, this can be done as follows. Make the layer containing the 
+polygon you want to cut from the original polygon editable, click |icon_edit|, 
+and select the object you want to cut. Copy its coordinates to the clipboard by
+clicking |copy_coordinates|. Go to editing the original polygon in the same way,
+click |add_ring|, in the parts list, activate the new ring, and paste the 
+coordinates with |paste_coordinates|.
+
+9. Align the boundary of an object to the boundary of another object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To perform this operation, make the layer containing the object to be aligned
+editable, click |icon_edit|, and select the object you want. Define a list of 
+boundary points to align to, select them, and copy their coordinates to the
+clipboard by clicking |copy_coordinates|. Go to edit the object you are 
+modifying. Add or remove points on the modified boundary line so that the
+number of points matches the number of points on the boundary of the object
+to snap to. Select these points and click |paste_coordinates|.
+
+10. Other operations
+~~~~~~~~~~~~~~~~~~~~
+It is within your discretion to conduct other transactions similar to those
+specified in points 8 and 9. However, note that single objects are edited or
+created in this way. Other tools are preferred for performing mass operations
+on objects.
+
+
+
 Indices and tables
 ==================
 

@@ -54,6 +54,10 @@ clipboard.
 4. Exchange coordinate values for X and Y.
 5. Add or remove parts of objects and/or rings for polygons.
 6. Add, edit, or delete coordinates of vertices.
+7. Quickly add a ring to a polygon, align the boundary of an object to the
+boundary of another object and make other operations. However, note that single
+objects are edited or created in this way. Other tools are preferred for
+performing mass operations on objects.
 
 In the main menu QGIS *Vector* will be added a new menu item *Numerical
 digitize* coordinates with three submenu items *Numerical digitizing*,
