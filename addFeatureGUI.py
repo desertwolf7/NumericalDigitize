@@ -119,8 +119,10 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         self.highLighter = None
 
         model = self.twPoints.model()
+        self.__ignore_changeCellEvent = True
         model.removeRows(0, model.rowCount())
         model.insertRows(0, 1)
+        self.__ignore_changeCellEvent = False
 
         model = self.listParts.model()
         model.removeRows(0, model.rowCount())

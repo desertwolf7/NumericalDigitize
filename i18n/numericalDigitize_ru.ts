@@ -4,37 +4,37 @@
 <context>
     <name>AddFeatureGUI</name>
     <message>
-        <location filename="../addFeatureGUI.py" line="309"/>
+        <location filename="../addFeatureGUI.py" line="311"/>
         <source>CRS not selected</source>
         <translation>Не выбрана CRS</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="326"/>
+        <location filename="../addFeatureGUI.py" line="328"/>
         <source>Select source coordinates system</source>
         <translation>Выберите исходную систему координат</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="330"/>
+        <location filename="../addFeatureGUI.py" line="332"/>
         <source>Select destination coordinates system</source>
         <translation>Выберите новую систему координат</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="557"/>
+        <location filename="../addFeatureGUI.py" line="559"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="558"/>
+        <location filename="../addFeatureGUI.py" line="560"/>
         <source>Remove all rows?</source>
         <translation>Удалить все строки?</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="690"/>
+        <location filename="../addFeatureGUI.py" line="692"/>
         <source>Values error</source>
         <translation>Неправильные значения</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="690"/>
+        <location filename="../addFeatureGUI.py" line="692"/>
         <source>Current part contains incorrect values</source>
         <translation>Текущая часть содержит некорректные значения</translation>
     </message>
