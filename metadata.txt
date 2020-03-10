@@ -1,0 +1,32 @@
+; the next section is mandatory
+[general]
+; start of mandatory metadata
+name=NumericalDigitize
+qgisMinimumVersion=2.0
+description=Digitize with just the keyboard
+version=version Version 0.3.0
+author=Cédric Möri
+email=cmoe@geoing.ch
+; end of mandatory metadata
+
+; start of optional metadata
+
+; experimental flag
+experimental=false
+
+changelog=Choose CRS of features, Russian translation
+  Ready for QGIS 2.0
+  fixed for use with QGIS > 1.8
+
+; tags are in comma separated value format, spaces are allowed
+tags=digitizing
+
+; these metadata can be empty
+; in a future version of the web application it will
+; be probably possible to create a project on redmine
+; if they are not filled
+homepage=http://sourceforge.net/projects/geoing/
+tracker=https://sourceforge.net/apps/trac/geoing/
+repository=http://geoing.svn.sourceforge.net/viewvc/geoing/
+icon=vector-create-keyboard.png
+

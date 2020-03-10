@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/plugins/NumericalDigitize">
+   <!--icon made by Robert Szczepanek . Thanks Robert-->
+    <file>vector-create-keyboard.png</file>
+  </qresource>
+</RCC>
