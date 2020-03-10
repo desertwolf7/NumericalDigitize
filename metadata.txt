@@ -27,6 +27,6 @@ tags=digitizing
 ; if they are not filled
 homepage=http://sourceforge.net/projects/geoing/
 tracker=https://sourceforge.net/apps/trac/geoing/
-repository=http://geoing.svn.sourceforge.net/viewvc/geoing/
+repository=http://geoing.svn.sourceforge.net/viewvc/geoing1/
 icon=vector-create-keyboard.png
 
