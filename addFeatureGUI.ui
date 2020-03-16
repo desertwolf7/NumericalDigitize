@@ -351,7 +351,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/mActionAddPart.svg</normaloff>:/plugins/NumericalDigitize/images/mActionAddPart.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/mActionAddPart.svg</normaloff>:/plugins/NumericalDigitize/images/mActionAddPart.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -389,7 +389,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/mActionDeletePart.svg</normaloff>:/plugins/NumericalDigitize/images/mActionDeletePart.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/mActionDeletePart.svg</normaloff>:/plugins/numericalDigitize/images/mActionDeletePart.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -424,7 +424,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/mActionAddRing.svg</normaloff>:/plugins/NumericalDigitize/images/mActionAddRing.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/mActionAddRing.svg</normaloff>:/plugins/numericalDigitize/images/mActionAddRing.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -507,7 +507,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/mActionEditCopy.svg</normaloff>:/plugins/NumericalDigitize/images/mActionEditCopy.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/mActionEditCopy.svg</normaloff>:/plugins/numericalDigitize/images/mActionEditCopy.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -539,7 +539,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/mActionEditPaste.svg</normaloff>:/plugins/NumericalDigitize/images/mActionEditPaste.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/mActionEditPaste.svg</normaloff>:/plugins/numericalDigitize/images/mActionEditPaste.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -574,7 +574,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/swap.svg</normaloff>:/plugins/NumericalDigitize/images/swap.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/swap.svg</normaloff>:/plugins/numericalDigitize/images/swap.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -609,7 +609,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/mActionNewTableRow.svg</normaloff>:/plugins/NumericalDigitize/images/mActionNewTableRow.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/mActionNewTableRow.svg</normaloff>:/plugins/numericalDigitize/images/mActionNewTableRow.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -647,7 +647,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/mActionDeleteTableRow.svg</normaloff>:/plugins/NumericalDigitize/images/mActionDeleteTableRow.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/mActionDeleteTableRow.svg</normaloff>:/plugins/numericalDigitize/images/mActionDeleteTableRow.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -721,7 +721,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/plugins/NumericalDigitize/images/mActionSetProjection.svg</normaloff>:/plugins/NumericalDigitize/images/mActionSetProjection.svg</iconset>
+             <normaloff>:/plugins/numericalDigitize/images/mActionSetProjection.svg</normaloff>:/plugins/numericalDigitize/images/mActionSetProjection.svg</iconset>
            </property>
            <property name="iconSize">
             <size>

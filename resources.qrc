@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="/plugins/NumericalDigitize" >
+  <qresource prefix="/plugins/numericalDigitize" >
     <file>images/icon.svg</file>
     <file>images/icon-edit.svg</file>
     <file>images/mActionAddPart.svg</file>
