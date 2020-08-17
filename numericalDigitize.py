@@ -510,9 +510,11 @@ class NumericalDigitize:
 
         if not self.__isEditMode:
             self.__layer.beginEditCommand("Feature added")
+            self.__layer.addFeature(feature)
             if self.iface.openFeatureForm(self.__layer, feature):
-                self.__layer.addFeature(feature)
-            self.__layer.endEditCommand()
+                self.__layer.endEditCommand()
+            else:
+                self.__layer.destroyEditCommand()
         else:
             self.__layer.beginEditCommand("Feature updated")
             self.__layer.updateFeature(feature)

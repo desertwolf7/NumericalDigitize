@@ -4,37 +4,37 @@
 <context>
     <name>AddFeatureGUI</name>
     <message>
-        <location filename="../addFeatureGUI.py" line="311"/>
+        <location filename="../addFeatureGUI.py" line="334"/>
         <source>CRS not selected</source>
         <translation>Не выбрана CRS</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="328"/>
+        <location filename="../addFeatureGUI.py" line="351"/>
         <source>Select source coordinates system</source>
         <translation>Выберите исходную систему координат</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="332"/>
+        <location filename="../addFeatureGUI.py" line="355"/>
         <source>Select destination coordinates system</source>
         <translation>Выберите новую систему координат</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="559"/>
+        <location filename="../addFeatureGUI.py" line="582"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="560"/>
+        <location filename="../addFeatureGUI.py" line="583"/>
         <source>Remove all rows?</source>
         <translation>Удалить все строки?</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="692"/>
+        <location filename="../addFeatureGUI.py" line="715"/>
         <source>Values error</source>
         <translation>Неправильные значения</translation>
     </message>
     <message>
-        <location filename="../addFeatureGUI.py" line="692"/>
+        <location filename="../addFeatureGUI.py" line="715"/>
         <source>Current part contains incorrect values</source>
         <translation>Текущая часть содержит некорректные значения</translation>
     </message>
@@ -179,97 +179,102 @@
 <context>
     <name>numericalDigitize_MainDialog</name>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="286"/>
+        <location filename="../ui_addFeatureGUI.py" line="293"/>
         <source>Add numerical feature</source>
         <translation>Добавить объект по кооридинатам</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="287"/>
+        <location filename="../ui_addFeatureGUI.py" line="294"/>
         <source>Coordinates are given</source>
         <translation>Координаты точек в</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="289"/>
+        <location filename="../ui_addFeatureGUI.py" line="296"/>
         <source>in the CRS of the Project</source>
         <translation>системе координат проекта</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="288"/>
+        <location filename="../ui_addFeatureGUI.py" line="295"/>
         <source>in the CRS of the Layer</source>
         <translation>системе координат текущего слоя</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="290"/>
+        <location filename="../ui_addFeatureGUI.py" line="297"/>
         <source>other</source>
         <translation>системе координат</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="291"/>
+        <location filename="../ui_addFeatureGUI.py" line="298"/>
         <source>not selected</source>
         <translation>не выбрано</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="294"/>
+        <location filename="../ui_addFeatureGUI.py" line="302"/>
         <source>1</source>
         <translation>1</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="296"/>
+        <location filename="../ui_addFeatureGUI.py" line="304"/>
         <source>X</source>
         <translation>X</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="298"/>
+        <location filename="../ui_addFeatureGUI.py" line="306"/>
         <source>Y</source>
         <translation>Y</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="299"/>
+        <location filename="../ui_addFeatureGUI.py" line="307"/>
         <source>Add part</source>
         <translation>Добавить часть</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="315"/>
+        <location filename="../ui_addFeatureGUI.py" line="323"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="301"/>
+        <location filename="../ui_addFeatureGUI.py" line="309"/>
         <source>Remove part</source>
         <translation>Удалить часть</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="303"/>
+        <location filename="../ui_addFeatureGUI.py" line="311"/>
         <source>Add polygon ring</source>
         <translation>Добавить кольцо</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="305"/>
+        <location filename="../ui_addFeatureGUI.py" line="313"/>
         <source>Copy to clipboard</source>
         <translation>Копировать координаты в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="307"/>
+        <location filename="../ui_addFeatureGUI.py" line="315"/>
         <source>Paste from clipboard</source>
         <translation>Вставить координаты из буфера обмена</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="311"/>
+        <location filename="../ui_addFeatureGUI.py" line="319"/>
         <source>Add row</source>
         <translation>Добавить строку</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="313"/>
+        <location filename="../ui_addFeatureGUI.py" line="321"/>
         <source>Delete rows</source>
         <translation>Удалить строки</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="309"/>
+        <location filename="../ui_addFeatureGUI.py" line="317"/>
         <source>Swap values of X and Y columns</source>
         <translation>Обменять значения столбцов X и Y</translation>
     </message>
     <message>
-        <location filename="../ui_addFeatureGUI.py" line="292"/>
+        <location filename="../ui_addFeatureGUI.py" line="299"/>
+        <source>Select</source>
+        <translation>Выбрать</translation>
+    </message>
+    <message>
+        <location filename="../ui_addFeatureGUI.py" line="300"/>
         <source>Part №</source>
         <translation>Часть №</translation>
     </message>

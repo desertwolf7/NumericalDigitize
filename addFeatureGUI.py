@@ -77,6 +77,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         super(AddFeatureGUI, self).__init__(parent)
         self.setupUi(self)
         self.featureCrsId = None
+        self.otherCrsId = None
         self.projectCrsId = None
 
     def configureSignals(self):
@@ -103,6 +104,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         self.listParts.currentRowChanged.connect(self.partChanged)
 
         self.rb_OtherCrs.toggled.connect(self.selectOtherCrs)
+        self.pb_OtherCrs.clicked.connect(self.SelectOtherCrsClicked)
         self.rb_ProjectCrs.toggled.connect(self.selectProjectCrs)
         self.rb_LayerCrs.toggled.connect(self.selectLayerCrs)
 
@@ -212,21 +214,23 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
                 
         # Disable choose CRS button while not selected rb_ChooseCrs
-        self.l_OtherCrsName.setEnabled(False)
+        self.l_OtherCrsName.setEnabled(self.rb_OtherCrs.isChecked())
+        self.pb_OtherCrs.setEnabled(self.rb_OtherCrs.isChecked())
 
         settings = QSettings()
 
-        rb_checked = settings.value("NumericDigitize/checked", "rb_ProjectCrs", type=str)
-        if rb_checked == "rb_ProjectCrs":
-            self.rb_ProjectCrs.setChecked(True)
+        rb_checked = settings.value("/Plugin-NumericalDigitize/Projection", "LayerCrs", type=str)
+        if rb_checked == "ProjectCrs":
             self.featureCrsId = self.projectCrsId
-        elif rb_checked == "rb_otherCrs":
-            self.rb_OtherCrs.setChecked(True)
-            self.featureCrsId = settings.value("NumericDigitize/featureCrsId", -1, type=int)
+            self.rb_ProjectCrs.setChecked(True)
+        elif rb_checked == "OtherCrs":
+            self.otherCrsId = settings.value("/Plugin-NumericalDigitize/OtherCrsId", -1, type=int)
+            self.featureCrsId = self.otherCrsId
             self.__displayAuthid()
+            self.rb_OtherCrs.setChecked(True)
         else:
-            self.rb_LayerCrs.setChecked(True)
             self.featureCrsId = self.mapCanvas.currentLayer().crs().srsid()
+            self.rb_LayerCrs.setChecked(True)
 
         self.selectedCRS.emit(self.featureCrsId)
 
@@ -287,6 +291,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
 
     def selectProjectCrs(self, checked):
         if checked:
+            self.projectCrsId = self.mapCanvas.mapSettings().destinationCrs().srsid()
             self.featureCrsId = self.projectCrsId
             self.selectedCRS.emit(self.projectCrsId)
 
@@ -296,25 +301,42 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
             self.selectedCRS.emit(self.featureCrsId)
 
     def selectOtherCrs(self, checked):
+        self.l_OtherCrsName.setEnabled(checked)
+        self.pb_OtherCrs.setEnabled(checked)
+
         if checked:
-            self.l_OtherCrsName.setEnabled(True)
-            crsSelector = QgsProjectionSelectionDialog()
+            if self.otherCrsId is None:
+                crsSelector = QgsProjectionSelectionDialog()
+                crsSelector.setCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
+                if crsSelector.exec():
+                    self.otherCrsId = crsSelector.crs().srsid()
+                    self.featureCrsId = self.otherCrsId
+                self.__displayAuthid()
+
+    def SelectOtherCrsClicked(self):
+        crsSelector = QgsProjectionSelectionDialog()
+        if self.otherCrsId is None:
             crsSelector.setCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
-            if crsSelector.exec():
-                self.featureCrsId = crsSelector.crs().srsid()
-            self.__displayAuthid()
         else:
-            self.l_OtherCrsName.setEnabled(False)
+            currentQCRS = QgsCoordinateReferenceSystem()
+            if currentQCRS.createFromSrsId(self.otherCrsId):
+                crsSelector.setCrs(currentQCRS)
+            else:
+                crsSelector.setCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
+        if crsSelector.exec():
+            self.otherCrsId = crsSelector.crs().srsid()
+            self.featureCrsId = self.otherCrsId
+        self.__displayAuthid()
 
     def __displayAuthid(self):
-        if self.featureCrsId == -1:
+        if self.otherCrsId == -1:
             self.l_OtherCrsName.setText("[%s]" % self.tr("CRS not selected"))
         else:
             self.l_OtherCrsName.setText(
-                '[%s]' % QgsCoordinateReferenceSystem(self.featureCrsId,
+                '[%s]' % QgsCoordinateReferenceSystem(self.otherCrsId,
                                                       QgsCoordinateReferenceSystem.InternalCrsId).authid()
                 )
-            self.selectedCRS.emit(self.featureCrsId)
+            self.selectedCRS.emit(self.otherCrsId)
 
     def reprojectCoords(self):
         self.refreshCoordsMatrix(self.prev_row)
@@ -671,12 +693,12 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         settings = QSettings()
         # tell the world if the coord should be transformed into the layer crs
         if self.rb_ProjectCrs.isChecked():
-            settings.setValue("NumericalDigitize/checked", "rb_ProjectCrs")
-        elif self.rb_OtherCrs.isChecked() and self.featureCrsId != -1:
-            settings.setValue("NumericalDigitize/checked", "rb_OtherCrs")
-            settings.setValue("NumericalDigitize/featureCrsId", self.featureCrsId)
+            settings.setValue("/Plugin-NumericalDigitize/Projection", "ProjectCrs")
+        elif self.rb_OtherCrs.isChecked() and self.otherCrsId != -1:
+            settings.setValue("/Plugin-NumericalDigitize/Projection", "OtherCrs")
+            settings.setValue("/Plugin-NumericalDigitize/OtherCrsId", self.otherCrsId)
         else:
-            settings.setValue("NumericalDigitize/checked", "rb_LayerCrs")
+            settings.setValue("/Plugin-NumericalDigitize/Projection", "LayerCrs")
 
     def onOK(self):
         # Refresh matrix coords for current part
