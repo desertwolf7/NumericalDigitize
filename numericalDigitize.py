@@ -292,35 +292,44 @@ class NumericalDigitize:
                     coords[0][1].append(row)
 
         elif self.__layergeometryType == QgsWkbTypes.LineGeometry:
-            if self.__isMultiType:
-                part_num = 0
-                for part in geom.constParts():
-                    coords.append([str(part_num + 1), list()])
-                    for vertex in part.vertices():
-                        row = list([vertex.x(), vertex.y()])
-                        if self.__hasZ:
-                            row.append(vertex.z())
-                        if self.__hasM:
-                            row.append(vertex.m())
-                        coords[part_num][1].append(row)
-                    part_num = part_num + 1
-            else:
-                coords.append(['1', list()])
-                for vertex in geom.vertices():
+            part_num = 0
+            for part in geom.constParts():
+                coords.append([str(part_num + 1), list()])
+                for vertex in part.vertices():
                     row = list([vertex.x(), vertex.y()])
                     if self.__hasZ:
                         row.append(vertex.z())
                     if self.__hasM:
                         row.append(vertex.m())
-                    coords[0][1].append(row)
+                    coords[part_num][1].append(row)
+                part_num = part_num + 1
 
         elif self.__layergeometryType == QgsWkbTypes.PolygonGeometry:
-            if self.__isMultiType:
-                part_num = 0
-                ring_num = 0
-                for part in geom.constParts():
-                    ring = part.exteriorRing()
-                    coords.append([str(part_num + 1), list()])
+            part_num = 0
+            ring_num = 0
+            for part in geom.constParts():
+                ring = part.exteriorRing()
+                coords.append([str(part_num + 1), list()])
+                for vertex in ring.vertices():
+                    row = list([vertex.x(), vertex.y()])
+                    if self.__hasZ:
+                        row.append(vertex.z())
+                    if self.__hasM:
+                        row.append(vertex.m())
+                    coords[part_num + ring_num][1].append(row)
+
+                # If first and last point identical - remove last point
+                part_list = coords[part_num + ring_num][1]
+                if part_list[0][0] == part_list[len(part_list) - 1][0] and \
+                        part_list[0][1] == part_list[len(part_list) - 1][1]:
+                    del part_list[-1]
+
+                part_num = part_num + 1
+
+                intrings = part.numInteriorRings()
+                for i in range(intrings):
+                    ring = part.interiorRing(i)
+                    coords.append([str(-(ring_num + 1)), list()])
                     for vertex in ring.vertices():
                         row = list([vertex.x(), vertex.y()])
                         if self.__hasZ:
@@ -335,27 +344,7 @@ class NumericalDigitize:
                             part_list[0][1] == part_list[len(part_list) - 1][1]:
                         del part_list[-1]
 
-                    part_num = part_num + 1
-
-                    intrings = part.numInteriorRings()
-                    for i in range(intrings):
-                        ring = part.interiorRing(i)
-                        coords.append([str(-(ring_num + 1)), list()])
-                        for vertex in ring.vertices():
-                            row = list([vertex.x(), vertex.y()])
-                            if self.__hasZ:
-                                row.append(vertex.z())
-                            if self.__hasM:
-                                row.append(vertex.m())
-                            coords[part_num + ring_num][1].append(row)
-
-                        # If first and last point identical - remove last point
-                        part_list = coords[part_num + ring_num][1]
-                        if part_list[0][0] == part_list[len(part_list) - 1][0] and \
-                                part_list[0][1] == part_list[len(part_list) - 1][1]:
-                            del part_list[-1]
-
-                        ring_num = ring_num + 1
+                    ring_num = ring_num + 1
 
     def toggle(self):
         """ When current layer changed  """
@@ -446,7 +435,7 @@ class NumericalDigitize:
                                 containsAllPoints = True
                                 for k in range(len(coordsPoint[j][1])):
                                     containsAllPoints = True
-                                    curPoint = QgsPoint(coordsPoint[j][1][k])
+                                    curPoint = coordsPoint[j][1][k].clone()
                                     containsAllPoints = containsAllPoints \
                                                     and polyGeometry.contains(QgsPointXY(curPoint.x(), curPoint.y()))
                                 if containsAllPoints:
@@ -472,7 +461,7 @@ class NumericalDigitize:
                         containsAllPoints = True
                         for j in range(len(coordsPoint[i][1])):
                             containsAllPoints = True
-                            curPoint = QgsPoint(coordsPoint[i][1][j])
+                            curPoint = coordsPoint[i][1][j].clone()
                             containsAllPoints = containsAllPoints \
                                                 and polyGeometry.contains(QgsPointXY(curPoint.x(), curPoint.y()))
                         if containsAllPoints:
