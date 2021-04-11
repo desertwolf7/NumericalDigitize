@@ -16,6 +16,7 @@ about=Numerical Digitize append two tools to vector editing panel of QGIS.
       Detailed help file can be found at menu 'Vector'->'Numerical digitize'->'Help' 
 tracker=https://github.com/desertwolf7/NumericalDigitize/issues
 repository=https://github.com/desertwolf7/NumericalDigitize/
+homepage=https://github.com/desertwolf7/NumericalDigitize/
 # End of mandatory metadata
 
 # Recommended items:
