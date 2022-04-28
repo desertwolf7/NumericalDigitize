@@ -44,7 +44,7 @@ currentPath = os.path.dirname(__file__)
 class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
 
     returnCoordList = pyqtSignal(list)
-    selectedCRS = pyqtSignal(int)
+    selectedCRS = pyqtSignal(object)
 
     """Matrix of coordinates
     Format: list of lists
@@ -76,9 +76,9 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         """Constructor."""
         super(AddFeatureGUI, self).__init__(parent)
         self.setupUi(self)
-        self.featureCrsId = None
-        self.otherCrsId = None
-        self.projectCrsId = None
+        self.featureCrs = None
+        self.otherCrs = None
+        self.projectCrs = None
 
     def configureSignals(self):
         # When change cell check values and append new rows
@@ -142,11 +142,11 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         self.isMultiType = p_Multitype
         self.isEditMode = p_EditMode
         self.mapCanvas = p_Canvas
-        self.projectCrsId = self.mapCanvas.mapSettings().destinationCrs().srsid()
+        self.projectCrs = self.mapCanvas.mapSettings().destinationCrs()
         self.highLighter = HighlightFeature(self.mapCanvas,
                                             self.layertype == QgsWkbTypes.PointGeometry,
                                             self.layertype == QgsWkbTypes.PolygonGeometry,
-                                            self.projectCrsId)
+                                            self.projectCrs)
         self.valueChecker = ValueChecker(self.twPoints, self.layertype)
 
         # Hide working with parts for any point geometry and simple line geometry
@@ -221,18 +221,22 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
 
         rb_checked = settings.value("/Plugin-NumericalDigitize/Projection", "LayerCrs", type=str)
         if rb_checked == "ProjectCrs":
-            self.featureCrsId = self.projectCrsId
+            self.featureCrs = self.projectCrs
             self.rb_ProjectCrs.setChecked(True)
         elif rb_checked == "OtherCrs":
-            self.otherCrsId = settings.value("/Plugin-NumericalDigitize/OtherCrsId", -1, type=int)
-            self.featureCrsId = self.otherCrsId
-            self.__displayAuthid()
-            self.rb_OtherCrs.setChecked(True)
+            self.otherCrs = QgsCoordinateReferenceSystem.fromWkt(
+                            settings.value("/Plugin-NumericalDigitize/OtherCrsWKT", "", type=str))
+            if self.otherCrs.isValid():
+                self.featureCrs = self.otherCrs
+                self.__displayAuthid()
+                self.rb_OtherCrs.setChecked(True)
+            else:
+                self.rb_ProjectCrs.setChecked(True)
         else:
-            self.featureCrsId = self.mapCanvas.currentLayer().crs().srsid()
+            self.featureCrs = self.mapCanvas.currentLayer().crs()
             self.rb_LayerCrs.setChecked(True)
 
-        self.selectedCRS.emit(self.featureCrsId)
+        self.selectedCRS.emit(self.featureCrs)
 
     @staticmethod
     def translate_str(message):
@@ -243,7 +247,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         if self.highLighter is not None:
             self.highLighter.removeHighlight()
             if -1 < partNum < len(self.coords_matrix):
-                self.highLighter.createHighlight(self.coords_matrix, partNum, self.featureCrsId)
+                self.highLighter.createHighlight(self.coords_matrix, partNum, self.featureCrs)
                 if -1 < vertexNum < len(self.coords_matrix[partNum][1]):
                     self.highLighter.changeCurrentVertex(vertexNum)
 
@@ -260,9 +264,9 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
 
         model.blockSignals(True)
         for i in range(len(self.coords_matrix)):
-            model.setData(model.createIndex(i, 0), QVariant(self.coords_matrix[i][0]))
+            model.setData(model.index(i, 0, QModelIndex()), QVariant(self.coords_matrix[i][0]))
         model.blockSignals(False)
-        model.dataChanged.emit(model.createIndex(0, 0), model.createIndex(model.rowCount() - 1, 0))
+        model.dataChanged.emit(model.index(0, 0, QModelIndex()), model.index(model.rowCount() - 1, 0, QModelIndex()))
 
         # Fill table with values
         model = self.twPoints.model()
@@ -277,13 +281,13 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
 
         for i in range(len(coordslist)):
             for j in range(self.twPoints.columnCount()):
-                model.setData(model.createIndex(i, j), QVariant(str(coordslist[i][j])))
+                model.setData(model.index(i, j, QModelIndex()), QVariant(str(coordslist[i][j])))
 
         model.blockSignals(False)
 
         self.__part_changing = True
-        model.dataChanged.emit(model.createIndex(0, 0),
-                               model.createIndex(model.rowCount()-1, model.columnCount()-1))
+        model.dataChanged.emit(model.index(0, 0, QModelIndex()),
+                               model.index(model.rowCount()-1, model.columnCount()-1, QModelIndex()))
         self.__part_changing = False
 
         self.highLightFeature(0, 0)
@@ -291,59 +295,55 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
 
     def selectProjectCrs(self, checked):
         if checked:
-            self.projectCrsId = self.mapCanvas.mapSettings().destinationCrs().srsid()
-            self.featureCrsId = self.projectCrsId
-            self.selectedCRS.emit(self.projectCrsId)
+            self.projectCrs = self.mapCanvas.mapSettings().destinationCrs()
+            self.featureCrs = self.projectCrs
+            self.selectedCRS.emit(self.projectCrs)
 
     def selectLayerCrs(self, checked):
         if checked:
-            self.featureCrsId = self.mapCanvas.currentLayer().crs().srsid()
-            self.selectedCRS.emit(self.featureCrsId)
+            self.featureCrs = self.mapCanvas.currentLayer().crs()
+            self.selectedCRS.emit(self.featureCrs)
 
     def selectOtherCrs(self, checked):
         self.l_OtherCrsName.setEnabled(checked)
         self.pb_OtherCrs.setEnabled(checked)
 
         if checked:
-            if self.otherCrsId is None:
+            if self.otherCrs is None:
                 crsSelector = QgsProjectionSelectionDialog()
                 crsSelector.setCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
                 if crsSelector.exec():
-                    self.otherCrsId = crsSelector.crs().srsid()
-                    self.featureCrsId = self.otherCrsId
+                    self.otherCrs = crsSelector.crs()
+                    self.featureCrs = self.otherCrs
                 self.__displayAuthid()
 
     def SelectOtherCrsClicked(self):
         crsSelector = QgsProjectionSelectionDialog()
-        if self.otherCrsId is None:
+        if self.otherCrs is None:
             crsSelector.setCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
         else:
-            currentQCRS = QgsCoordinateReferenceSystem()
-            if currentQCRS.createFromSrsId(self.otherCrsId):
-                crsSelector.setCrs(currentQCRS)
+            if self.otherCrs.isValid():
+                crsSelector.setCrs(self.otherCrs)
             else:
                 crsSelector.setCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
         if crsSelector.exec():
-            self.otherCrsId = crsSelector.crs().srsid()
-            self.featureCrsId = self.otherCrsId
+            self.otherCrs = crsSelector.crs()
+            self.featureCrs = self.otherCrs
         self.__displayAuthid()
 
     def __displayAuthid(self):
-        if self.otherCrsId == -1:
+        if not self.otherCrs.isValid():
             self.l_OtherCrsName.setText("[%s]" % self.tr("CRS not selected"))
         else:
             self.l_OtherCrsName.setText(
-                '[%s]' % QgsCoordinateReferenceSystem(self.otherCrsId,
-                                                      QgsCoordinateReferenceSystem.InternalCrsId).authid()
-                )
-            self.selectedCRS.emit(self.otherCrsId)
+                '[%s]' % self.otherCrs.authid())
+            self.selectedCRS.emit(self.otherCrs)
 
     def reprojectCoords(self):
         self.refreshCoordsMatrix(self.prev_row)
 
         if self.valueChecker.checkCoordsMatrix(self.coords_matrix):
-            srcProj = QgsCoordinateReferenceSystem()
-            srcProj.createFromSrsId(self.featureCrsId)
+            srcProj = self.featureCrs
 
             crsSelectorFrom = QgsProjectionSelectionDialog()
             crsSelectorFrom.setCrs(srcProj)
@@ -354,7 +354,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
                 crsSelectorTo.setMessage(self.translate_str("Select destination coordinates system"))
 
                 if crsSelectorTo.exec():
-                    rc = ReprojectCoordinates(crsSelectorFrom.crs().srsid(), crsSelectorTo.crs().srsid(),
+                    rc = ReprojectCoordinates(crsSelectorFrom.crs(), crsSelectorTo.crs(),
                                               self.has_Z, self.has_M)
                     self.coords_matrix = list(rc.reproject(self.coords_matrix, False))
 
@@ -362,10 +362,10 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
                     self.refreshTable(self.prev_row)
                     self.__part_changing = False
 
-                    self.featureCrsId = crsSelectorTo.crs().srsid()
-                    if self.featureCrsId == self.mapCanvas.currentLayer().crs().srsid():
+                    self.featureCrs = crsSelectorTo.crs()
+                    if self.featureCrs == self.mapCanvas.currentLayer().crs():
                         self.rb_LayerCrs.setChecked(True)
-                    elif self.featureCrsId == self.projectCrsId:
+                    elif self.featureCrs == self.projectCrs:
                         self.rb_ProjectCrs.setChecked(True)
                     else:
                         self.rb_OtherCrs.blockSignals(True)
@@ -504,7 +504,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
                 # If count of values in row more then columns in table - ignore it
                 columnRange = min(len(l_tuple), model.columnCount())
                 for j in range(columnRange):
-                    model.setData(model.createIndex(upperRow + i, j), QVariant(l_tuple[j]))
+                    model.setData(model.index(upperRow + i, j, QModelIndex()), QVariant(l_tuple[j]))
             model.blockSignals(False)
 
         # Fill with values selected cells
@@ -670,10 +670,10 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
             model.blockSignals(True)
             for i in range(len(coordslist)):
                 for j in range(model.columnCount()):
-                    model.setData(model.createIndex(i, j), QVariant(str(coordslist[i][j])))
+                    model.setData(model.index(i, j, QModelIndex()), QVariant(str(coordslist[i][j])))
             model.blockSignals(False)
-            model.dataChanged.emit(model.createIndex(0, 0),
-                                   model.createIndex(model.rowCount() - 1, model.columnCount() - 1))
+            model.dataChanged.emit(model.index(0, 0, QModelIndex()),
+                                   model.index(model.rowCount() - 1, model.columnCount() - 1, QModelIndex()))
 
     def partChanged(self, currentRow):
         # Set cellValueChanged semaphore
@@ -694,9 +694,9 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         # tell the world if the coord should be transformed into the layer crs
         if self.rb_ProjectCrs.isChecked():
             settings.setValue("/Plugin-NumericalDigitize/Projection", "ProjectCrs")
-        elif self.rb_OtherCrs.isChecked() and self.otherCrsId != -1:
+        elif self.rb_OtherCrs.isChecked() and self.otherCrs.isValid():
             settings.setValue("/Plugin-NumericalDigitize/Projection", "OtherCrs")
-            settings.setValue("/Plugin-NumericalDigitize/OtherCrsId", self.otherCrsId)
+            settings.setValue("/Plugin-NumericalDigitize/OtherCrsWKT", self.otherCrs.toWkt())
         else:
             settings.setValue("/Plugin-NumericalDigitize/Projection", "LayerCrs")
 

@@ -30,28 +30,26 @@ from math import isnan
 
 class HighlightFeature:
 
-    def __init__(self, canvas, p_pointsonly, p_closecontour, projectcrs_id):
+    def __init__(self, canvas, p_pointsonly, p_closecontour, p_projectcrs):
         self.canvas = canvas
 
         # Highliting all conturs and nodes of current contour
         self.lineHighlight = list()
         self.nodesHighlight = list()
-        self.projectCrsId = projectcrs_id
-        self.featureCrsId = -1
+        self.projectCrs = p_projectcrs
+        self.featureCrs = -1
         self.pointsOnly = p_pointsonly
         self.closeContour = p_closecontour
 
-    def createHighlight(self, coords, currentPart, featurecrs_id, currentVertex=0):
+    def createHighlight(self, coords, currentPart, p_featurecrs, currentVertex=0):
         """
         coords - list of tuples with coordinates coords matrix type from addFeatureGUI
         """
         needTransformation = False
-        self.featureCrsId = featurecrs_id
-        if self.featureCrsId != self.projectCrsId:
+        self.featureCrs = p_featurecrs
+        if self.featureCrs != self.projectCrs:
             needTransformation = True
-            crsSrc = QgsCoordinateReferenceSystem(self.featureCrsId, QgsCoordinateReferenceSystem.InternalCrsId)
-            crsDest = QgsCoordinateReferenceSystem(self.projectCrsId, QgsCoordinateReferenceSystem.InternalCrsId)
-            transformation = QgsCoordinateTransform(crsSrc, crsDest, QgsProject.instance())
+            transformation = QgsCoordinateTransform(self.featureCrs, self.projectCrs, QgsProject.instance())
 
         if not self.pointsOnly:
             for partNum in range(len(coords)):

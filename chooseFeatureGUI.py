@@ -22,7 +22,7 @@
  ***************************************************************************/
 """
 
-from qgis.PyQt.QtCore import (QVariant, QCoreApplication, QMetaType)
+from qgis.PyQt.QtCore import (QVariant, QCoreApplication, QMetaType, QModelIndex)
 from qgis.PyQt.QtWidgets import QMessageBox, QDialog
 from qgis.core import QgsVectorLayer
 
@@ -66,10 +66,10 @@ class ChooseFeatureGUI(QDialog, Ui_chooseFeatureDialog):
                         break
                 textValue = textValue + " (" +attributeValue + ")"
 
-            model.setData(model.createIndex(i, 0), textValue)
+            model.setData(model.index(i, 0, QModelIndex()), textValue)
 
         model.blockSignals(False)
-        model.dataChanged.emit(model.createIndex(0, 0), model.createIndex(model.rowCount() - 1, 0))
+        model.dataChanged.emit(model.index(0, 0, QModelIndex()), model.index(model.rowCount() - 1, 0, QModelIndex()))
 
         self.selectedFeature = 0
         self.__layer.select(self.__localFeatureList[self.selectedFeature].id())

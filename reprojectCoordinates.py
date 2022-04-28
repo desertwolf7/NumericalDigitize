@@ -27,12 +27,10 @@ from qgis.core import (QgsPoint, QgsCoordinateReferenceSystem, QgsCoordinateTran
 
 class ReprojectCoordinates:
 
-    def __init__(self, fromCRS_id, toCRS_id, p_hasZ, p_hasM):
-        crsSrc = QgsCoordinateReferenceSystem(fromCRS_id, QgsCoordinateReferenceSystem.InternalCrsId)
-        crsDest = QgsCoordinateReferenceSystem(toCRS_id, QgsCoordinateReferenceSystem.InternalCrsId)
+    def __init__(self, fromCRS, toCRS, p_hasZ, p_hasM):
         self.hasZ = p_hasZ
         self.hasM = p_hasM
-        self.transformation = QgsCoordinateTransform(crsSrc, crsDest, QgsProject.instance())
+        self.transformation = QgsCoordinateTransform(fromCRS, toCRS, QgsProject.instance())
 
     def copyCoordstoPoints(self, coords):
         if coords is not None:

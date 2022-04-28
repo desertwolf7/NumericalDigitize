@@ -81,7 +81,7 @@ class NumericalDigitize:
         self.first_start_edit = None
 
         # Coordinate system for used coordinates
-        self.crsId = None
+        self.CRS = None
 
         # Map Canvas reference
         self.canvas = self.iface.mapCanvas()
@@ -380,16 +380,15 @@ class NumericalDigitize:
         self.actions[0].setChecked(False)
 
     # noinspection PyPep8Naming
-    def doTransformFromCrs(self, crsId):
-        self.crsId = crsId
+    def doTransformFromCrs(self, p_CRS):
+        self.CRS = p_CRS
 
       # noinspection PyPep8Naming
     def createGeom(self, coords):
 
         crsDest = self.__layer.crs()
-
-        rc = ReprojectCoordinates(self.crsId, crsDest.srsid(), self.__hasZ, self.__hasM)
-        if self.crsId != crsDest.srsid():
+        rc = ReprojectCoordinates(self.CRS, crsDest, self.__hasZ, self.__hasM)
+        if self.CRS != crsDest:
             coordsPoint = list(rc.reproject(coords, True))
         else:
             coordsPoint = list(rc.copyCoordstoPoints(coords))
