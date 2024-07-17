@@ -207,7 +207,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
 
         # Resize grid. Set column's width equal. Resize the section to fill the available space.
         for i in range(self.twPoints.columnCount()):    
-            self.twPoints.setColumnWidth(i, self.twPoints.width()/self.twPoints.columnCount())
+            self.twPoints.setColumnWidth(i, int(self.twPoints.width()/self.twPoints.columnCount()))
             self.twPoints.horizontalHeader().setSectionResizeMode(i, QHeaderView.Stretch)
 
         # Disable OK button. Wait for entering valid coordinates
