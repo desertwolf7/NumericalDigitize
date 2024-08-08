@@ -2,7 +2,7 @@
 name=NumericalDigitize
 qgisMinimumVersion=3.4
 description=Numerical Digitize is QGIS plugin for creating and editing features by inserting, changing or deleting numerical values of vertex's coordinates from keybord or from clipboard
-version=0.4.7
+version=0.4.8
 author=Igor Chumichev	
 email=desertwolf@inbox.ru
 about=Numerical Digitize append two tools to vector editing panel of QGIS.
@@ -23,6 +23,8 @@ homepage=https://github.com/desertwolf7/NumericalDigitize/
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
 changelog=
+    0.4.8 - Bugs fixed: setColumnWidth mismatch parameter type 	
+    0.4.7 - Bugs fixed
     0.4.6 - Bugs fixed: errors when editing single part polygone, editing poligons with interrior rings in QGIS 3.16	
     0.4.5 - Added button of projections selection
 	  - Bugs fixed: overwrite attributes of other features when save feature of new created shape file
