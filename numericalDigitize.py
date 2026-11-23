@@ -220,13 +220,13 @@ class NumericalDigitize:
         if layer is not None and Rectangle is not None:
             request = QgsFeatureRequest()
             request.setFilterRect(Rectangle.boundingBox())
-            request.setFlags(QgsFeatureRequest.ExactIntersect)
+            request.setFlags(QgsFeatureRequest.Flag.ExactIntersect)
             feature_list = list(layer.getFeatures(request))
 
             if len(feature_list) == 0:
                 QMessageBox.critical(self.iface.mainWindow(),
                                      self.translate_str("Numerical edit error"),
-                                     self.translate_str("No feature selected"), QMessageBox.Ok)
+                                     self.translate_str("No feature selected"), QMessageBox.StandardButton.Ok)
                 self.feature_id = None
             elif len(feature_list) > 1:
                 if self.__dlgChooser is None:
@@ -271,7 +271,7 @@ class NumericalDigitize:
         :return: none
         """
         geom = feature.geometry()
-        if self.__layergeometryType == QgsWkbTypes.PointGeometry:
+        if self.__layergeometryType == QgsWkbTypes.GeometryType.PointGeometry:
             coords.append(['1', list()])
             if self.__isMultiType:
                 for part in geom.constParts():
@@ -291,7 +291,7 @@ class NumericalDigitize:
                         row.append(vertex.m())
                     coords[0][1].append(row)
 
-        elif self.__layergeometryType == QgsWkbTypes.LineGeometry:
+        elif self.__layergeometryType == QgsWkbTypes.GeometryType.LineGeometry:
             part_num = 0
             for part in geom.constParts():
                 coords.append([str(part_num + 1), list()])
@@ -304,7 +304,7 @@ class NumericalDigitize:
                     coords[part_num][1].append(row)
                 part_num = part_num + 1
 
-        elif self.__layergeometryType == QgsWkbTypes.PolygonGeometry:
+        elif self.__layergeometryType == QgsWkbTypes.GeometryType.PolygonGeometry:
             part_num = 0
             ring_num = 0
             for part in geom.constParts():
@@ -351,13 +351,13 @@ class NumericalDigitize:
         self.__layer = self.canvas.currentLayer()
         # Decide whether the plugin button/menu is enabled or disabled
         if self.__layer is not None:
-            if self.__layer.type() == QgsMapLayer.VectorLayer:
+            if self.__layer.type() == QgsMapLayer.LayerType.VectorLayer:
                 self.__setlayerproperties()
 
                 if self.__layer.isEditable() and (
-                        self.__layergeometryType == QgsWkbTypes.PointGeometry
-                        or self.__layergeometryType == QgsWkbTypes.LineGeometry
-                        or self.__layergeometryType == QgsWkbTypes.PolygonGeometry):
+                        self.__layergeometryType == QgsWkbTypes.GeometryType.PointGeometry
+                        or self.__layergeometryType == QgsWkbTypes.GeometryType.LineGeometry
+                        or self.__layergeometryType == QgsWkbTypes.GeometryType.PolygonGeometry):
                     for action in self.actions:
                         action.setEnabled(True)
                     self.__layer.editingStopped.connect(self.toggle)
@@ -395,7 +395,7 @@ class NumericalDigitize:
 
         # Point and multipoint Geometry
         # Always 1 part, 0 element of matrix
-        if self.__layergeometryType == QgsWkbTypes.PointGeometry:
+        if self.__layergeometryType == QgsWkbTypes.GeometryType.PointGeometry:
             if self.__isMultiType:
                 multipoint = QgsMultiPoint()
                 for coords_item in coordsPoint[0][1]:
@@ -407,7 +407,7 @@ class NumericalDigitize:
                 geom = QgsGeometry(coordsPoint[0][1][0])
                 self.createFeature(geom)
 
-        elif self.__layergeometryType == QgsWkbTypes.LineGeometry:
+        elif self.__layergeometryType == QgsWkbTypes.GeometryType.LineGeometry:
             if self.__isMultiType:
                 multiline = QgsGeometry(QgsMultiLineString())
                 for j in range(len(coordsPoint)):
@@ -418,7 +418,7 @@ class NumericalDigitize:
                 line = QgsGeometry(QgsLineString(coordsPoint[0][1]))
                 self.createFeature(line)
 
-        elif self.__layergeometryType == QgsWkbTypes.PolygonGeometry:
+        elif self.__layergeometryType == QgsWkbTypes.GeometryType.PolygonGeometry:
             if self.__isMultiType:
                 multipoly = QgsGeometry(QgsMultiPolygon())
 
@@ -471,7 +471,7 @@ class NumericalDigitize:
                                                  self.translate_str("Ring not in exterior contour"),
                                                  self.translate_str("The new geometry of the feature"
                                                                     " isn't valid. Do you want to use it anyway?"),
-                                                 QMessageBox.Yes, QMessageBox.No)
+                                                 QMessageBox.StandardButton.Yes, QMessageBox.StandardButton.No)
 
                 self.createFeature(QgsGeometry(poly))
 
@@ -490,8 +490,8 @@ class NumericalDigitize:
                                          self.translate_str("Feature not valid"),
                                          self.translate_str("The new geometry of the feature isn't "
                                                             "valid. Do you want to use it anyway?"),
-                                         QMessageBox.Yes, QMessageBox.No)
-            if reply == QMessageBox.Yes:
+                                         QMessageBox.StandardButton.Yes, QMessageBox.StandardButton.No)
+            if reply == QMessageBox.StandardButton.Yes:
                 feature.setGeometry(geom)
             else:
                 return False

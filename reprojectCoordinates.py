@@ -44,16 +44,16 @@ class ReprojectCoordinates:
                 for i in range(len(element)):
                     if not (self.hasZ or self.hasM):
                         NodePoint = QgsPoint(float(element[i][0]),
-                                             float(element[i][1]), None, None, QgsWkbTypes.Point)
+                                             float(element[i][1]), None, None, QgsWkbTypes.Type.Point)
                     elif self.hasZ and not self.hasM:
                         NodePoint = QgsPoint(float(element[i][0]), float(element[i][1]), float(element[i][2]),
-                                             None, QgsWkbTypes.PointZ)
+                                             None, QgsWkbTypes.Type.PointZ)
                     elif not self.hasZ and self.hasM:
                         NodePoint = QgsPoint(float(element[i][0]), float(element[i][1]), None,
-                                             float(element[i][2]), QgsWkbTypes.PointM)
+                                             float(element[i][2]), QgsWkbTypes.Type.PointM)
                     else:
                         NodePoint = QgsPoint(float(element[i][0]), float(element[i][1]), float(element[i][2]),
-                                             float(element[i][3]), QgsWkbTypes.PointZM)
+                                             float(element[i][3]), QgsWkbTypes.Type.PointZM)
 
                     coordsPoint[j][1].append(NodePoint)
 

@@ -22,12 +22,19 @@
 """
 
 from qgis.PyQt.QtWidgets import QTableWidget, QTableWidgetItem
-from qgis.PyQt.QtCore import QVariant, QMetaType, QCoreApplication, Qt, QModelIndex
+from qgis.PyQt.QtCore import QVariant, QMetaType, QCoreApplication, Qt, QModelIndex, QT_VERSION
 from qgis.PyQt.QtGui import QBrush, QColor
 from qgis.core import QgsWkbTypes, QgsError
 from qgis.gui import QgsErrorDialog
 from enum import Enum
 from math import isnan
+
+if QT_VERSION >= 0x060000:
+    STRING_TYPE = QMetaType(QMetaType.Type.QString.value)
+    FLOAT_TYPE = QMetaType(QMetaType.Type.Float.value)
+else:
+    STRING_TYPE = QMetaType.Type.QString
+    FLOAT_TYPE = QMetaType.Type.Float
 
 
 class CellValue(Enum):
@@ -47,10 +54,10 @@ class ValueChecker:
     def checkValue(value: QVariant):
         if value.isNull():
             return CellValue.ValueNone
-        if value.convert(QMetaType.QString):
+        if value.convert(STRING_TYPE):
             if str(value.value()) == "":
                 return CellValue.ValueNone
-        if value.convert(QMetaType.Float):
+        if value.convert(FLOAT_TYPE):
             if isnan(float(value.value())):
                 return CellValue.ValueNotFloat
             else:
@@ -72,7 +79,7 @@ class ValueChecker:
         if j > model.columnCount() or j < 0:
             return CellValue.ValueNone
 
-        return self.checkValue(QVariant(model.data(model.index(i, j, QModelIndex()), Qt.EditRole)))
+        return self.checkValue(QVariant(model.data(model.index(i, j, QModelIndex()), Qt.ItemDataRole.EditRole)))
 
     def isCurrentPartValid(self, highlightErrors=False):
         partValid = True
@@ -121,12 +128,12 @@ class ValueChecker:
             if len(listValues) == 0:
                 strResult.append(self.translate_str("Part ") +
                                  str(partNumber) + self.translate_str(" is empty"), self.translate_str("Value error"))
-            elif self.geometryType == QgsWkbTypes.LineGeometry and len(listValues) < 2:
+            elif self.geometryType == QgsWkbTypes.GeometryType.LineGeometry and len(listValues) < 2:
                 strResult.append(self.translate_str("Part ") + str(partNumber) +
                                  self.translate_str(" contains below 2 points."
                                                     " It's not enough for creating line geometry"),
                                  self.translate_str("Value error"))
-            elif self.geometryType == QgsWkbTypes.Polygon and len(listValues) < 3:
+            elif self.geometryType == QgsWkbTypes.Type.Polygon and len(listValues) < 3:
                 strResult.append(self.translate_str("Part ") + str(partNumber) +
                                  self.translate_str(" contains below 3 points. It's not enough "
                                                     "for creating polygon geometry"), self.translate_str("Value error"))
@@ -164,11 +171,11 @@ class ValueChecker:
         # If layertype - polyline and entered point => 2
         # If layertype - polygone and entered point => 3
         
-        if self.geometryType == QgsWkbTypes.PointGeometry and (self.tableViewWidget.rowCount()) >= 1:
+        if self.geometryType == QgsWkbTypes.GeometryType.PointGeometry and (self.tableViewWidget.rowCount()) >= 1:
             return True
-        elif self.geometryType == QgsWkbTypes.LineGeometry and (self.tableViewWidget.rowCount()-1) >= 2:
+        elif self.geometryType == QgsWkbTypes.GeometryType.LineGeometry and (self.tableViewWidget.rowCount()-1) >= 2:
             return True
-        elif self.geometryType == QgsWkbTypes.PolygonGeometry and (self.tableViewWidget.rowCount()-1) >= 3:
+        elif self.geometryType == QgsWkbTypes.GeometryType.PolygonGeometry and (self.tableViewWidget.rowCount()-1) >= 3:
             return True
         else:
             return False

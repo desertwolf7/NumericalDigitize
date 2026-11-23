@@ -61,9 +61,9 @@ class FeatureFinderTool(QgsMapToolEmitPoint):
                                          "      ++.++     ",
                                          "       +.+      "]))
 
-        self.rubberBand = QgsRubberBand(self.canvas, QgsWkbTypes.PolygonGeometry)
-        self.rubberBand.setColor(Qt.red)
-        self.rubberBand.setFillColor(Qt.transparent)
+        self.rubberBand = QgsRubberBand(self.canvas, QgsWkbTypes.GeometryType.PolygonGeometry)
+        self.rubberBand.setColor(Qt.GlobalColor.red)
+        self.rubberBand.setFillColor(Qt.GlobalColor.transparent)
         self.rubberBand.setWidth(1)
 
     def canvasPressEvent(self, e):
@@ -95,7 +95,7 @@ class FeatureFinderTool(QgsMapToolEmitPoint):
         self.showRect(self.startPoint, self.endPoint)
 
     def showRect(self, startPoint, endPoint):
-        self.rubberBand.reset(QgsWkbTypes.PolygonGeometry)
+        self.rubberBand.reset(QgsWkbTypes.GeometryType.PolygonGeometry)
         if startPoint.x() == endPoint.x() or startPoint.y() == endPoint.y():
             return
 

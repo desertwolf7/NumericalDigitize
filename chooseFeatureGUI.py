@@ -22,7 +22,7 @@
  ***************************************************************************/
 """
 
-from qgis.PyQt.QtCore import (QVariant, QCoreApplication, QMetaType, QModelIndex)
+from qgis.PyQt.QtCore import (QVariant, QCoreApplication, QMetaType, QModelIndex, QT_VERSION)
 from qgis.PyQt.QtWidgets import QMessageBox, QDialog
 from qgis.core import QgsVectorLayer
 
@@ -31,6 +31,8 @@ from .ui_chooseFeatureGUI import Ui_chooseFeatureDialog
 
 import os
 from builtins import int, str
+
+STRING_TYPE = QMetaType(QMetaType.Type.QString.value) if QT_VERSION >= 0x060000 else QVariant.Type.String
 
 # noinspection PyPep8Naming
 class ChooseFeatureGUI(QDialog, Ui_chooseFeatureDialog):
@@ -85,9 +87,9 @@ class ChooseFeatureGUI(QDialog, Ui_chooseFeatureDialog):
 
     def selectDisplayFields(self):
 
-        numTypes = [QMetaType.Int, QMetaType.UInt, QMetaType.Double, QMetaType.Long, QMetaType.LongLong,
-                    QMetaType.Short, QMetaType.ULong, QMetaType.ULongLong, QMetaType.UShort, QMetaType.Float]
-        datetimeTypes = [QMetaType.QDate, QMetaType.QDateTime, QMetaType.QTime]
+        numTypes = [QMetaType.Type.Int, QMetaType.Type.UInt, QMetaType.Type.Double, QMetaType.Type.Long, QMetaType.Type.LongLong,
+                    QMetaType.Type.Short, QMetaType.Type.ULong, QMetaType.Type.ULongLong, QMetaType.Type.UShort, QMetaType.Type.Float]
+        datetimeTypes = [QMetaType.Type.QDate, QMetaType.Type.QDateTime, QMetaType.Type.QTime]
 
         displayFieldsList = list()
         priority = 0
@@ -101,7 +103,7 @@ class ChooseFeatureGUI(QDialog, Ui_chooseFeatureDialog):
                 priority = 0
                 # If at least one field in selected features not empty and can convert to string then continue
                 if not self.fieldIsEmpty(i) and self.fieldCanConvertToStr(i) and \
-                        (localFields.field(i).type() == QMetaType.QString or
+                        (localFields.field(i).type() == QMetaType.Type.QString or
                         localFields.field(i).type() in numTypes or
                         localFields.field(i).type() in datetimeTypes):
 
@@ -112,7 +114,7 @@ class ChooseFeatureGUI(QDialog, Ui_chooseFeatureDialog):
                     if localFields.field(i).length() > 256:
                         priority = priority - 10
                     # Increase priority for string type
-                    if localFields.field(i).type() == QMetaType.QString:
+                    if localFields.field(i).type() == QMetaType.Type.QString:
                         # Ignore single char fields
                         if localFields.field(i).length() > -1:
                             priority = priority + 10
@@ -138,7 +140,7 @@ class ChooseFeatureGUI(QDialog, Ui_chooseFeatureDialog):
     def fieldCanConvertToStr(self, fieldIndex):
         canConvert = True
         for i in range(len(self.__localFeatureList)):
-            canConvert = canConvert and QVariant(self.__localFeatureList[i][fieldIndex]).convert(QVariant.String)
+            canConvert = canConvert and QVariant(self.__localFeatureList[i][fieldIndex]).convert(STRING_TYPE)
 
         return canConvert
 

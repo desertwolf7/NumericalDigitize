@@ -6,33 +6,33 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from qgis.PyQt import QtCore, QtGui, QtWidgets
 
 class Ui_chooseFeatureDialog(object):
     def setupUi(self, chooseFeatureDialog):
         chooseFeatureDialog.setObjectName("chooseFeatureDialog")
-        chooseFeatureDialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        chooseFeatureDialog.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         chooseFeatureDialog.resize(470, 391)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(chooseFeatureDialog.sizePolicy().hasHeightForWidth())
         chooseFeatureDialog.setSizePolicy(sizePolicy)
-        chooseFeatureDialog.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
+        chooseFeatureDialog.setLocale(QtCore.QLocale(QtCore.QLocale.Language.English, QtCore.QLocale.Country.UnitedStates))
         chooseFeatureDialog.setSizeGripEnabled(False)
         self.gridLayout = QtWidgets.QGridLayout(chooseFeatureDialog)
         self.gridLayout.setContentsMargins(3, 3, 3, 3)
         self.gridLayout.setObjectName("gridLayout")
         self.buttonBox = QtWidgets.QDialogButtonBox(chooseFeatureDialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
         self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setMinimumSize(QtCore.QSize(0, 30))
         self.buttonBox.setMaximumSize(QtCore.QSize(16777215, 30))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setOrientation(QtCore.Qt.Orientation.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.StandardButton.Cancel|QtWidgets.QDialogButtonBox.StandardButton.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
         self.listFeatures = QtWidgets.QListWidget(chooseFeatureDialog)

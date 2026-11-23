@@ -21,11 +21,19 @@
  ***************************************************************************/
 """
 
-from qgis.PyQt.QtCore import Qt, QVariant, QMetaType
-from qgis.core import (QgsCoordinateReferenceSystem, QgsWkbTypes, QgsCoordinateTransform, QgsProject, QgsPointXY,
+from qgis.PyQt.QtCore import Qt, QVariant
+from qgis.core import (Qgis, QgsCoordinateReferenceSystem, QgsWkbTypes, QgsCoordinateTransform, QgsProject, QgsPointXY,
                        QgsPoint, QgsRectangle)
 from qgis.gui import QgsRubberBand
 from math import isnan
+from .valueChecker import STRING_TYPE, FLOAT_TYPE
+
+if hasattr(Qgis, 'RubberBandIconType'):
+    ICON_BOX = Qgis.RubberBandIconType.BoxFilled
+    ICON_DIAMOND = Qgis.RubberBandIconType.DiamondFilled
+else:
+    ICON_BOX = QgsRubberBand.ICON_FULL_BOX
+    ICON_DIAMOND = QgsRubberBand.ICON_FULL_DIAMOND
 
 
 class HighlightFeature:
@@ -53,7 +61,7 @@ class HighlightFeature:
 
         if not self.pointsOnly:
             for partNum in range(len(coords)):
-                self.lineHighlight.append(QgsRubberBand(self.canvas, QgsWkbTypes.LineGeometry))
+                self.lineHighlight.append(QgsRubberBand(self.canvas, QgsWkbTypes.GeometryType.LineGeometry))
                 coordsPart = coords[partNum][1]
                 for i in range(len(coordsPart)):
                     if self.isFloat(coordsPart[i][0]) and self.isFloat(coordsPart[i][1]):
@@ -68,14 +76,14 @@ class HighlightFeature:
                 if self.closeContour and self.lineHighlight[partNum].numberOfVertices() > 2:
                     self.lineHighlight[partNum].closePoints(True)
 
-                self.lineHighlight[partNum].setColor(Qt.red)
+                self.lineHighlight[partNum].setColor(Qt.GlobalColor.red)
                 self.lineHighlight[partNum].setWidth(2)
 
         j = 0
         coordsPart = coords[currentPart][1]
         for i in range(len(coordsPart)):
             if self.isFloat(coordsPart[i][0]) and self.isFloat(coordsPart[i][1]):
-                self.nodesHighlight.append(QgsRubberBand(self.canvas, QgsWkbTypes.PointGeometry))
+                self.nodesHighlight.append(QgsRubberBand(self.canvas, QgsWkbTypes.GeometryType.PointGeometry))
                 if needTransformation:
                     src_point = QgsPoint(float(coordsPart[i][0]), float(coordsPart[i][1]))
                     src_point.transform(transformation)
@@ -85,11 +93,11 @@ class HighlightFeature:
                 self.nodesHighlight[j].addPoint(point, True, 0)
 
                 if i == currentVertex:
-                    self.nodesHighlight[j].setIcon(QgsRubberBand.ICON_FULL_BOX)
-                    self.nodesHighlight[j].setColor(Qt.darkRed)
+                    self.nodesHighlight[j].setIcon(ICON_BOX)
+                    self.nodesHighlight[j].setColor(Qt.GlobalColor.darkRed)
                 else:
-                    self.nodesHighlight[j].setIcon(QgsRubberBand.ICON_FULL_DIAMOND)
-                    self.nodesHighlight[j].setColor(Qt.darkBlue)
+                    self.nodesHighlight[j].setIcon(ICON_DIAMOND)
+                    self.nodesHighlight[j].setColor(Qt.GlobalColor.darkBlue)
                 self.nodesHighlight[j].setIconSize(10)
                 j = j + 1
 
@@ -118,11 +126,11 @@ class HighlightFeature:
         if self.nodesHighlight is not None:
             for i in range(len(self.nodesHighlight)):
                 if i == currentVertex:
-                    self.nodesHighlight[i].setIcon(QgsRubberBand.ICON_FULL_BOX)
-                    self.nodesHighlight[i].setColor(Qt.darkRed)
+                    self.nodesHighlight[i].setIcon(ICON_BOX)
+                    self.nodesHighlight[i].setColor(Qt.GlobalColor.darkRed)
                 else:
-                    self.nodesHighlight[i].setIcon(QgsRubberBand.ICON_FULL_DIAMOND)
-                    self.nodesHighlight[i].setColor(Qt.darkBlue)
+                    self.nodesHighlight[i].setIcon(ICON_DIAMOND)
+                    self.nodesHighlight[i].setColor(Qt.GlobalColor.darkBlue)
 
             self.canvas.refresh()
 
@@ -130,12 +138,12 @@ class HighlightFeature:
         if len(self.lineHighlight) > 0:
             for partNum in range(len(self.lineHighlight)):
                 self.canvas.scene().removeItem(self.lineHighlight[partNum])
-                self.lineHighlight[partNum].reset(QgsWkbTypes.LineGeometry)
+                self.lineHighlight[partNum].reset(QgsWkbTypes.GeometryType.LineGeometry)
             self.lineHighlight.clear()
 
         for i in range(len(self.nodesHighlight)):
             self.canvas.scene().removeItem(self.nodesHighlight[i])
-            self.nodesHighlight[i].reset(QgsWkbTypes.PointGeometry)
+            self.nodesHighlight[i].reset(QgsWkbTypes.GeometryType.PointGeometry)
         self.nodesHighlight.clear()
 
         self.canvas.refresh()
@@ -146,10 +154,10 @@ class HighlightFeature:
 
         if q_value.isNull():
             return False
-        if q_value.convert(QMetaType.QString):
+        if q_value.convert(STRING_TYPE):
             if str(q_value.value()) == '':
                 return False
-        if q_value.convert(QMetaType.Float):
+        if q_value.convert(FLOAT_TYPE):
             if isnan(float(q_value.value())):
                 return False
             else:

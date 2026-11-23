@@ -144,14 +144,14 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         self.mapCanvas = p_Canvas
         self.projectCrs = self.mapCanvas.mapSettings().destinationCrs()
         self.highLighter = HighlightFeature(self.mapCanvas,
-                                            self.layertype == QgsWkbTypes.PointGeometry,
-                                            self.layertype == QgsWkbTypes.PolygonGeometry,
+                                            self.layertype == QgsWkbTypes.GeometryType.PointGeometry,
+                                            self.layertype == QgsWkbTypes.GeometryType.PolygonGeometry,
                                             self.projectCrs)
         self.valueChecker = ValueChecker(self.twPoints, self.layertype)
 
         # Hide working with parts for any point geometry and simple line geometry
-        if self.layertype == QgsWkbTypes.PointGeometry or \
-                (self.layertype == QgsWkbTypes.LineGeometry and not self.isMultiType):
+        if self.layertype == QgsWkbTypes.GeometryType.PointGeometry or \
+                (self.layertype == QgsWkbTypes.GeometryType.LineGeometry and not self.isMultiType):
             self.partButtonsFrame.hide()
             self.partsFrame.hide()
             self.gridMainLayout.setHorizontalSpacing(0)
@@ -163,7 +163,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
             self.gridMainLayout.setHorizontalSpacing(3)
 
             # Set enabled state Add ring button only for polygons
-            self.toolButtonAddRing.setEnabled(self.layertype == QgsWkbTypes.PolygonGeometry)
+            self.toolButtonAddRing.setEnabled(self.layertype == QgsWkbTypes.GeometryType.PolygonGeometry)
 
             # Disable add parts buttons for not multipolygone (only add ring enabled)
             self.toolButtonAddPart.setEnabled(self.isMultiType)
@@ -171,7 +171,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
             model = self.listParts.model()
             model.blockSignals(True)
             model.insertRows(0, 1)
-            model.setData(model.index(0), '1', QtCore.Qt.EditRole)
+            model.setData(model.index(0), '1', QtCore.Qt.ItemDataRole.EditRole)
             model.blockSignals(False)
 
             self.__contursCount = 1
@@ -208,10 +208,10 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         # Resize grid. Set column's width equal. Resize the section to fill the available space.
         for i in range(self.twPoints.columnCount()):    
             self.twPoints.setColumnWidth(i, int(self.twPoints.width()/self.twPoints.columnCount()))
-            self.twPoints.horizontalHeader().setSectionResizeMode(i, QHeaderView.Stretch)
+            self.twPoints.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeMode.Stretch)
 
         # Disable OK button. Wait for entering valid coordinates
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setEnabled(False)
                 
         # Disable choose CRS button while not selected rb_ChooseCrs
         self.l_OtherCrsName.setEnabled(self.rb_OtherCrs.isChecked())
@@ -271,7 +271,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         # Fill table with values
         model = self.twPoints.model()
         model.removeRows(0, model.rowCount())
-        if self.layertype == QgsWkbTypes.PointGeometry and not self.isMultiType:
+        if self.layertype == QgsWkbTypes.GeometryType.PointGeometry and not self.isMultiType:
             model.insertRows(0, len(self.coords_matrix[0][1]))
         else:
             model.insertRows(0, len(self.coords_matrix[0][1]) + 1)
@@ -291,7 +291,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         self.__part_changing = False
 
         self.highLightFeature(0, 0)
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.valueChecker.setOkButtonState())
+        self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setEnabled(self.valueChecker.setOkButtonState())
 
     def selectProjectCrs(self, checked):
         if checked:
@@ -408,14 +408,14 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
             if self.twPoints.rowCount() == currentRow + 1:
                 # If all values valid and it's not single point geometry - append new row in table
                 if self.valueChecker.isRowValid(currentRow) \
-                        and (self.isMultiType or self.layertype != QgsWkbTypes.PointGeometry):
+                        and (self.isMultiType or self.layertype != QgsWkbTypes.GeometryType.PointGeometry):
                     self.twPoints.setRowCount(self.twPoints.rowCount())
                     self.twPoints.insertRow(self.twPoints.rowCount())
                     self.__ignore_changeCellEvent = True
                     self.twPoints.setCurrentCell(self.twPoints.rowCount() - 1, 0)
                     self.twPoints.edit(self.twPoints.currentIndex())
 
-                self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.valueChecker.setOkButtonState())
+                self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setEnabled(self.valueChecker.setOkButtonState())
 
         elif theValue == CellValue.ValueNotFloat or theValue == CellValue.ValueNone:
             # If value of cell is not number - set foreground red color
@@ -439,17 +439,17 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
                 for j in range(model.columnCount()):
                     modelIndex = model.index(i, j, QModelIndex())
                     if selectedCells.__contains__(modelIndex):
-                        currentString = currentString + str(model.data(modelIndex, QtCore.Qt.EditRole)) + "\t"
+                        currentString = currentString + str(model.data(modelIndex, QtCore.Qt.ItemDataRole.EditRole)) + "\t"
                 if len(currentString) > 0:
                     textstring = textstring + currentString[:-1] + "\n"
         else:
             for i in range(model.rowCount() - droprow):
                 for j in range(model.columnCount()):
                     textstring = textstring + \
-                                 str(model.data(model.index(i, j, QModelIndex()), QtCore.Qt.EditRole)) + "\t"
+                                 str(model.data(model.index(i, j, QModelIndex()), QtCore.Qt.ItemDataRole.EditRole)) + "\t"
                 textstring = textstring[:-1] + "\n"
 
-        QApplication.clipboard().setText(textstring, QClipboard.Clipboard)
+        QApplication.clipboard().setText(textstring, QClipboard.Mode.Clipboard)
 
     def pasteButtonClicked(self):
         model = self.twPoints.model()
@@ -530,7 +530,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         model.dataChanged.emit(model.index(0, 0, QModelIndex()),
                                model.index(model.rowCount()-1, model.columnCount()-1, QModelIndex()))
 
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.valueChecker.setOkButtonState())
+        self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setEnabled(self.valueChecker.setOkButtonState())
 
     def swapButtonClicked(self):
         # When swap button pressed exchange values of X and Y in table control and coordinates store
@@ -540,9 +540,9 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         for i in range(model.rowCount()):
             index1 = model.index(i, 0, QModelIndex())
             index2 = model.index(i, 1, QModelIndex())
-            swapvalue = model.data(index1, QtCore.Qt.EditRole)
-            model.setData(index1, model.data(index2, QtCore.Qt.EditRole), QtCore.Qt.EditRole)
-            model.setData(index2, swapvalue, QtCore.Qt.EditRole)
+            swapvalue = model.data(index1, QtCore.Qt.ItemDataRole.EditRole)
+            model.setData(index1, model.data(index2, QtCore.Qt.ItemDataRole.EditRole), QtCore.Qt.ItemDataRole.EditRole)
+            model.setData(index2, swapvalue, QtCore.Qt.ItemDataRole.EditRole)
         self.__part_changing = False
 
         for i in range(len(self.coords_matrix)):
@@ -578,8 +578,8 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
         if len(selectedRows) == 0:
             title = self.translate_str("Warning")
             message = self.translate_str("Remove all rows?")
-            msgBox = QMessageBox.warning(self.window(), title, message, QMessageBox.Ok | QMessageBox.Cancel)
-            if msgBox == QMessageBox.Ok:
+            msgBox = QMessageBox.warning(self.window(), title, message, QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+            if msgBox == QMessageBox.StandardButton.Ok:
                 model.removeRows(0, model.rowCount())
                 model.insertRows(0, 1)
         else:
@@ -653,7 +653,7 @@ class AddFeatureGUI(QDialog, Ui_numericalDigitize_MainDialog):
             rowtuple.clear()
             for j in range(model.columnCount()):
                 if self.valueChecker.checkModelValue(i, j) == CellValue.ValueFloat:
-                    rowtuple.append(model.data(model.index(i, j, QModelIndex()), QtCore.Qt.EditRole))
+                    rowtuple.append(model.data(model.index(i, j, QModelIndex()), QtCore.Qt.ItemDataRole.EditRole))
                 else:
                     rowtuple.append("NaN")
             self.coords_matrix[part_num][1].append(list(rowtuple))
